@@ -1,0 +1,36 @@
+<div class="banner ok">
+  📴 本页为<b>离线验真器</b>:全部校验(数字签名、链头与签发时状态、有效期、核验用途、正文篡改)
+  均在本机用内置信任锚完成,<b>不发起任何网络请求</b>,可断网使用。
+  内置信任锚 <b id="anchor-count">…</b>。
+</div>
+
+<div class="card">
+  <h2>① 载入第三方权利证明</h2>
+  <div class="form-row">
+    <label class="fld" style="grid-column:1/-1">选择证明文件(.ewr-cert.json)
+      <input type="file" id="file-input" accept=".json,application/json">
+    </label>
+  </div>
+  <p class="small muted" style="margin:8px 0">或把扫码得到的文本 / 证明 JSON 粘贴到下方文本框(扫码枪通常直接输出文本):</p>
+  <textarea id="cert-text" rows="9" style="width:100%;font-family:ui-monospace,Menlo,monospace;font-size:12px"
+    placeholder='{"v":1,"alg":"ES256","kid":"CK0001","claims":{...},"sig":"..."}'></textarea>
+  <div class="hr"></div>
+  <div class="form-row">
+    <label class="fld">本次核验用途(用途不符将拒绝)
+      <select id="purpose">
+        <option value="">(不校验用途)</option>
+      </select>
+    </label>
+    <div style="align-self:end" class="row-actions">
+      <button class="primary" id="btn-verify">离线验真</button>
+      <button id="btn-tamper" class="danger">模拟篡改后再验(演练)</button>
+      <button id="btn-clear" class="ghost">清空</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h2>② 验真结论</h2>
+  <div id="qr-box"></div>
+  <div id="result"><p class="muted small">载入证明后在此显示验真结论、披露字段与校验明细。</p></div>
+</div>

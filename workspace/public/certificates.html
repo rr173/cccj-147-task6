@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>权利证明中心 · 电子仓单平台</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div id="topbar"></div>
+<main>
+  <div class="banner">
+    📜 <b>对外权利证明签发与离线验真</b>:融资方/监管方选取一项仓储权利的当前摘要,
+    生成带<b>有效期、核验用途、披露字段、可用次数</b>的 ECDSA 签名证明;第三方在<b>断网环境</b>
+    仅凭内置信任锚即可校验签名、链头、签发时状态与授权范围。未披露的企业身份、估值、融资额、放行令牌不可从证明推导。
+  </div>
+
+  <div class="grid cols-2">
+    <!-- 签发 -->
+    <div class="card">
+      <h2>① 在线签发权利证明</h2>
+      <div class="form-row">
+        <label class="fld">签发主体
+          <select id="is-actor"></select>
+        </label>
+        <label class="fld">目标仓储权利(仓单当前摘要)
+          <select id="is-receipt"></select>
+        </label>
+        <label class="fld">核验用途
+          <select id="is-purpose"></select>
+        </label>
+        <label class="fld">有效天数
+          <input id="is-ttl" type="number" value="7" min="1">
+        </label>
+        <label class="fld">可用次数(留空=1,0=不限次)
+          <input id="is-uses" type="number" value="3" min="0">
+        </label>
+      </div>
+      <h3>披露字段(勾选即对第三方可见;未勾选项以随机盐承诺封存,无法推导)</h3>
+      <div id="is-fields" class="pill-row" style="gap:8px"></div>
+      <div class="hr"></div>
+      <div class="row-actions">
+        <button class="primary" id="btn-issue">签发签名证明</button>
+        <button class="ghost" onclick="quickSelectSensitive()">只披露最小集(演练隐私)</button>
+      </div>
+      <p class="small muted" style="margin-top:8px">融资方仅能对自己持有的存续质押仓单签发;监管方可对任意有效仓单签发。</p>
+    </div>
+
+    <!-- 验真 -->
+    <div class="card">
+      <h2>② 第三方验真(在线 / 离线)</h2>
+      <div class="form-row">
+        <label class="fld">本次核验用途(用途不符将拒绝)
+          <select id="vf-purpose"></select>
+        </label>
+      </div>
+      <label class="fld" style="margin-top:8px">粘贴证明 JSON / 扫码文本,或选择证明文件
+        <input type="file" id="vf-file" accept=".json,application/json">
+      </label>
+      <textarea id="vf-text" rows="6" style="width:100%;margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px"
+        placeholder='{"v":1,"alg":"ES256","kid":"CK0001","claims":{...},"sig":"..."}'></textarea>
+      <div class="hr"></div>
+      <div class="row-actions">
+        <button class="primary" id="btn-verify-online">在线核验(查撤销/扣次数)</button>
+        <button onclick="openOffline()">打开离线验真器(断网)</button>
+        <button class="ghost" id="btn-download-verifier">下载离线验真器单文件</button>
+      </div>
+      <p class="small muted" style="margin-top:8px">在线核验:权威判定撤销与剩余次数,失败重试携带同一 nonce 不重复扣次。离线验真:不联网,只校签名/链头/有效期/用途/篡改。</p>
+      <div id="vf-result" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <!-- 最近签发 -->
+  <div class="card" style="margin-top:16px">
+    <h2>③ 已签发证明台账 <button style="margin-left:auto" id="btn-refresh-certs">刷新</button>
+      <button class="ghost" onclick="loadCerts(true)">显示全部(含撤销/过期)</button>
+    </h2>
+    <div class="table-wrap">
+      <table id="tbl-certs"><thead><tr>
+        <th>证明号</th><th>仓单/签发方</th><th>用途</th><th>有效期</th><th>次数</th><th>密钥</th>
+        <th>状态</th><th style="min-width:300px">操作</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+
+  <!-- 密钥管理 -->
+  <div class="card" style="margin-top:16px">
+    <h2>④ 签名密钥管理(监管方)
+      <span style="margin-left:auto" class="row-actions">
+        <button class="primary" onclick="doRotate()">轮换密钥(旧证明继续可验)</button>
+      </span>
+    </h2>
+    <p class="small muted">正常轮换:旧密钥标记 ROTATED 仍是信任锚,轮换前签发的证明按签发规则继续验真。
+      应急吊销(疑似私钥泄露):该密钥签发的全部证明立即不再受信。</p>
+    <div class="table-wrap">
+      <table id="tbl-keys"><thead><tr>
+        <th>密钥 ID</th><th>状态</th><th>创建时间</th><th>轮换/吊销</th><th>签发证明数</th><th>公钥指纹</th><th>操作</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+
+  <!-- 监管回放 -->
+  <div class="card" style="margin-top:16px">
+    <h2>⑤ 核验与撤销监管回放(成功/拒绝严格按序,失败重试可辨)
+      <button style="margin-left:auto" onclick="loadVerifications()">查询</button>
+    </h2>
+    <div class="form-row" style="margin-bottom:10px">
+      <label class="fld">证明号<input id="rv-cert" placeholder="CRT0001"></label>
+      <label class="fld">结果
+        <select id="rv-valid"><option value="">全部</option><option value="true">通过</option><option value="false">拒绝</option></select>
+      </label>
+    </div>
+    <div class="table-wrap" style="max-height:360px">
+      <table id="tbl-verifications"><thead><tr>
+        <th>#</th><th>时间</th><th>证明</th><th>用途</th><th>结论</th><th>原因码 / 说明</th><th>次数(剩余)</th><th>链事件</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</main>
+<script src="/common.js"></script>
+<script src="/cert-core.js"></script>
+<script src="/qrcode.js"></script>
+<script src="/certificates.js"></script>
+</body>
+</html>
