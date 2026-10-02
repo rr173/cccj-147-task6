@@ -10,8 +10,9 @@
     "test:restart": "node test/restart-recovery.mjs",
     "test:e2e": "node test/e2e-flow.mjs",
     "test:cert": "node test/certificates.mjs",
+    "test:deleg": "node test/delegation.mjs",
     "test:cert-pages": "node test/cert-pages.mjs",
-    "test:all": "node test/smoke.mjs && node test/restart-recovery.mjs && node test/e2e-flow.mjs && node test/certificates.mjs && node test/cert-pages.mjs"
+    "test:all": "node test/smoke.mjs && node test/restart-recovery.mjs && node test/e2e-flow.mjs && node test/certificates.mjs && node test/delegation.mjs && node test/cert-pages.mjs"
   },
   "engines": {
     "node": ">=18"

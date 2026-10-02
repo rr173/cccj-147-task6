@@ -241,14 +241,18 @@ export function createBrowser(baseUrl) {
   // HTML 骨架中静态存在的元素(tag 用于 querySelector('tbody'))
   const TABLES = ['tbl-receipts', 'tbl-ib', 'tbl-dl', 'tbl-rl', 'tbl-steps', 'tbl-pledges',
     'tbl-sup', 'tbl-batch', 'tbl-ops', 'tbl', 'tbl-events', 'tbl-transfers',
-    'tbl-certs', 'tbl-keys', 'tbl-verifications'];
+    'tbl-certs', 'tbl-keys', 'tbl-verifications',
+    'tbl-delegs', 'tbl-pt-delegs', 'tbl-pt-verdicts', 'tbl-dt-delegs', 'tbl-dt-events'];
   const SELECTS = ['f-loc', 'f-grade', 'f-holder', 'p-fin', 'p-receipt', 'p-batch',
     'race-receipt', 'stale-pledge', 'replay-pledge', 'op-outcome', 'op-action',
-    'tf-pledge', 'tf-to', 'is-actor', 'is-receipt', 'is-purpose', 'vf-purpose', 'rv-valid'];
+    'tf-pledge', 'tf-to', 'is-actor', 'is-receipt', 'is-purpose', 'vf-purpose', 'rv-valid',
+    'dl-cert', 'dl-trustee', 'pt-party', 'pt-deleg', 'pt-valid'];
   const INPUTS = ['f-qty', 'f-start', 'p-amount', 'vb-note', 'filter',
-    'op-receipt', 'op-pledge', 'op-actor', 'op-session', 'is-ttl', 'is-uses', 'rv-cert', 'cert-text', 'vf-text'];
+    'op-receipt', 'op-pledge', 'op-actor', 'op-session', 'is-ttl', 'is-uses', 'rv-cert', 'cert-text', 'vf-text',
+    'dl-quota', 'dl-ttl', 'dl-oplimit', 'dl-allowops', 'pt-operator', 'pt-flowno', 'pt-scene', 'dt-cert'];
   const BUTTONS = ['btn-register', 'btn-merge', 'btn-merge-clear', 'btn-refresh', 'btn-reset', 'btn-lock', 'btn-transfer-apply',
-    'btn-issue', 'btn-verify-online', 'btn-refresh-certs'];
+    'btn-issue', 'btn-verify-online', 'btn-refresh-certs',
+    'btn-grant-deleg', 'btn-refresh-delegs', 'btn-consume', 'btn-new-flowno', 'btn-pt-refresh'];
   const tagFor = (id) =>
     TABLES.includes(id) ? 'table' : SELECTS.includes(id) ? 'select' :
     INPUTS.includes(id) ? 'input' : BUTTONS.includes(id) ? 'button' : 'div';

@@ -171,6 +171,7 @@ function renderTopbar(active) {
       <a href="/warehouse.html" class="${active === 'wh' ? 'active' : ''}">仓库端</a>
       <a href="/financier.html" class="${active === 'fin' ? 'active' : ''}">融资方端</a>
       <a href="/certificates.html" class="${active === 'cert' ? 'active' : ''}">权利证明</a>
+      <a href="/partner.html" class="${active === 'partner' ? 'active' : ''}">合作机构</a>
       <a href="/regulator.html" class="${active === 'reg' ? 'active' : ''}">监管查询</a>
     </nav>
     <div class="spacer"></div>

@@ -27,6 +27,8 @@ function buildSeed() {
     { id: 'FIN-CMB', type: 'financer', name: '远航银行动产融资中心' },
     { id: 'ENT-HONGTAI', type: 'enterprise', name: '宏泰铜业有限公司' },
     { id: 'ENT-LVYE', type: 'enterprise', name: '绿野铝业有限公司' },
+    { id: 'PARTNER-SINO', type: 'partner', name: '华信合作查验机构(受托)' },
+    { id: 'PARTNER-YUAN', type: 'partner', name: '远鉴协同查验机构(受托)' },
     { id: 'REG-1', type: 'regulator', name: '地方金融监督管理局' }
   ];
 

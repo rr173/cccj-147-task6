@@ -38,7 +38,7 @@ class DomainError extends Error {
 
 function freshState() {
   return {
-    seq: { receipt: 0, event: 0, batch: 0, pledge: 0, valuation: 0, release: 0, delivery: 0, operation: 0, transfer: 0, certKey: 0, certificate: 0 },
+    seq: { receipt: 0, event: 0, batch: 0, pledge: 0, valuation: 0, release: 0, delivery: 0, operation: 0, transfer: 0, certKey: 0, certificate: 0, delegation: 0 },
     commodities: [], // {id,name,unit}
     grades: [],      // {id,commodityId,name,basePrice}
     locations: [],   // {id,warehouseId,name,capacity,commodityId}
@@ -54,6 +54,8 @@ function freshState() {
     certKeys: [],    // 证明签名密钥(ACTIVE/ROTATED/REVOKED;轮换后旧密钥仍为旧证明提供验真信任锚)
     certificates: [], // 对外权利证明记录(含签发正文、用途、次数、撤销状态)
     certificateVerifications: [], // 在线核验结论(按 nonce 幂等,成功扣次/失败不扣,并发确定)
+    certDelegations: [], // 机构级查验额度委托(ACTIVE/RECLAIMED/STOPPED/EXHAUSTED;受托机构只能消费自己的额度)
+    certDelegationVerdicts: [], // 受托机构消费裁决(按业务流水 flowNo 幂等;成功扣次/失败留痕,并发确定)
     operationRecords: [], // 融资方操作会话留痕(成功/冲突/拒绝,与业务事务同提交;失败单独留痕)
     idempotency: {}, // key -> 回执对象
     events: []       // append-only 权利链
@@ -99,10 +101,13 @@ function load() {
     if (!Array.isArray(state.certKeys)) state.certKeys = [];
     if (!Array.isArray(state.certificates)) state.certificates = [];
     if (!Array.isArray(state.certificateVerifications)) state.certificateVerifications = [];
+    if (!Array.isArray(state.certDelegations)) state.certDelegations = [];
+    if (!Array.isArray(state.certDelegationVerdicts)) state.certDelegationVerdicts = [];
     if (!state.seq.operation) state.seq.operation = state.operationRecords.length;
     if (!state.seq.transfer) state.seq.transfer = state.transfers.length;
     if (!state.seq.certKey) state.seq.certKey = state.certKeys.length;
     if (!state.seq.certificate) state.seq.certificate = state.certificates.length;
+    if (!state.seq.delegation) state.seq.delegation = state.certDelegations.length;
   } catch (e) {
     if (e.code !== 'ENOENT') throw e;
     state = freshState();
@@ -118,9 +123,27 @@ function reset(newState) {
 function getState() {
   return state;
 }
+/**
+ * 一致性只读:读操作在 FIFO 写队列的【当前尾】之后执行,返回一个已提交快照。
+ * 写事务是 async(验签期间多次 await),若 GET 不经闸门直接读 `state`,
+ * 可能在一串并发写的提交间隙读到中间投影(例如已看到后提交的计数、却落在前一次落盘视图上)。
+ * 经由此函数,读永远对应某一完整提交点,且不会越过调用时已入队的写。
+ */
+function readState() {
+  const gate = chainRun;
+  return gate.then(() => state);
+}
 
 /* ----------------------------- 串行事务 ----------------------------- */
-let chainTail = Promise.resolve();
+/**
+ * 严格 FIFO 事务闸门。
+ * 关键:mutator 可能是 async(证明验签需 WebCrypto,一次事务内有多次 await)。
+ * 下一事务的「深拷贝快照」必须在上一事务【提交完成】(state 已替换、已落盘)之后才抓取,
+ * 否则后入队请求会在前者 await 挂起期间抢到旧快照、先提交,随后前者用旧状态覆盖,
+ * 形成丢失更新(并发扣次丢笔/超扣)。因此这里在 run 体内 await 上一个 run 的 runPromise
+ * (而非仅在入队时链接),保证「快照→执行→提交」整段临界区严格串行。
+ */
+let chainRun = Promise.resolve();
 
 /**
  * 在事务中执行 mutator(FIFO 串行)。
@@ -131,7 +154,7 @@ let chainTail = Promise.resolve();
  * @returns mutator 的返回值
  */
 function transact(mutator) {
-  const run = chainTail.then(async () => {
+  const run = chainRun.then(async () => {
     const draft = structuredClone(state);
     const ctx = {
       nextId: (kind, prefix) => {
@@ -160,8 +183,8 @@ function transact(mutator) {
     persist();
     return result;
   });
-  // 队列即使本次失败也要继续
-  chainTail = run.then(
+  // 闸门推进:等【整个 run(含提交落盘)】结束才放行下一事务;成败都继续
+  chainRun = run.then(
     () => undefined,
     () => undefined
   );
@@ -190,6 +213,7 @@ module.exports = {
   load,
   reset,
   getState,
+  readState,
   transact,
   verifyChain,
   DB_FILE

@@ -13,6 +13,7 @@ const QR = window.EWR_QR;
 let STATE = null;
 let showAllCerts = false;
 let lastCerts = [];
+let lastDelegs = [];
 const SENSITIVE_DEFAULT = ['receiptId', 'receiptStatus', 'receiptVersion', 'qty',
   'warehouseName', 'locationName', 'commodityName', 'gradeName', 'pledgeExists', 'pledgeStatus', 'issuedAtDate'];
 
@@ -40,7 +41,7 @@ async function init() {
     '<option value="">(不校验用途)</option>' + C.PURPOSES.map((p) => `<option value="${p.code}">${p.name}</option>`).join('');
   renderFieldPicker();
   document.getElementById('is-actor').onchange = renderReceiptOptions;
-  await Promise.all([loadCerts(), loadKeys(), loadVerifications()]);
+  await Promise.all([loadCerts(), loadKeys(), loadVerifications(), loadDelegations()]);
 }
 
 function renderReceiptOptions() {
@@ -201,13 +202,117 @@ window.revokeCert = async (id) => {
   const actorId = document.getElementById('is-actor').value || 'REG-1';
   try {
     await api('/api/certificates/revoke', { actorId, certId: id, reason });
-    toast('证明已撤销', 'success');
-    await Promise.all([loadCerts(), loadVerifications()]);
+    toast('证明已撤销,其全部下级委托已同步停止', 'success', 7000);
+    await Promise.all([loadCerts(), loadVerifications(), loadDelegations()]);
   } catch (e) { toast('撤销失败:' + e.message, 'error'); }
 };
 document.getElementById('btn-refresh-certs').onclick = async () => {
   STATE = await getState(); renderReceiptOptions();
-  await Promise.all([loadCerts(), loadKeys(), loadVerifications()]);
+  await Promise.all([loadCerts(), loadKeys(), loadVerifications(), loadDelegations()]);
+};
+
+/* ========================= 机构级查验额度委托 ========================= */
+const DELEG_STATUS = {
+  ACTIVE: ['green', '生效中'], PENDING_START: ['blue', '待生效'], EXPIRED: ['gray', '已过期'],
+  RECLAIMED: ['gray', '已收回'], STOPPED: ['red', '已级联停止'], EXHAUSTED: ['amber', '额度用完']
+};
+
+function renderDelegForm() {
+  const certSel = document.getElementById('dl-cert');
+  const now = Date.now();
+  const valid = lastCerts.filter((c) => c.status === 'ACTIVE' && c.expiresAt > now);
+  certSel.innerHTML = valid.length
+    ? valid.map((c) => `<option value="${c.id}">${c.id} · ${esc(purposeName(c.purpose))} · ${c.maxUses == null ? '不限次' : '总' + c.maxUses + ' 余可分配' + c.delegation.allocatable} · ${esc(c.issuedByName)}</option>`).join('')
+    : '<option value="">(暂无有效凭据;请先签发)</option>';
+  const trustees = STATE.parties.filter((p) => p.type === 'partner');
+  document.getElementById('dl-trustee').innerHTML = trustees.length
+    ? trustees.map((p) => `<option value="${p.id}">${esc(p.name)}</option>`).join('')
+    : '<option value="">(无合作机构)</option>';
+  renderDelegTree();
+  document.getElementById('dl-cert').addEventListener('change', renderDelegTree);
+}
+
+async function loadDelegations() {
+  lastDelegs = await getJson('/api/certificates/delegations');
+  renderDelegForm();
+  const tb = document.querySelector('#tbl-delegs tbody');
+  tb.innerHTML = lastDelegs.map((d) => {
+    const [cls, text] = DELEG_STATUS[d.liveStatus] || DELEG_STATUS[d.status] || ['gray', d.status];
+    return `<tr>
+      <td><b>${d.id}</b><div class="small muted">${esc(d.grantedByName)}</div></td>
+      <td class="small mono">${d.certId}<div>${esc(purposeName(d.scenario))}</div></td>
+      <td class="small">${esc(d.trusteeName)}<div class="muted mono">${esc(d.trusteeId)}</div></td>
+      <td><b>${d.usedCount}/${d.quota}</b><div class="small muted">余 ${d.remaining}</div></td>
+      <td class="small">${fmtTime(d.startsAt)}<br><span class="muted">至 ${fmtTime(d.endsAt)}</span></td>
+      <td class="small">${d.perOperatorLimit == null ? '不限单人' : '单人≤' + d.perOperatorLimit}<div class="muted">${d.operatorAllowlist && d.operatorAllowlist.length ? '名单:' + esc(d.operatorAllowlist.join(',')) : '无名单'}</div></td>
+      <td><span class="badge ${cls}">${text}</span>${d.stopReason ? `<div class="small tag-bad">${esc(d.stopReason)}</div>` : ''}${d.reclaimedQuota != null ? `<div class="small muted">收回 ${d.reclaimedQuota}</div>` : ''}</td>
+      <td>${d.status === 'ACTIVE' ? `<button class="danger" onclick='reclaimDeleg("${d.id}")'>收回未用额度</button>` : '<span class="muted small">终态</span>'}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" class="muted">暂无委托;在上方为有效凭据分配额度。</td></tr>';
+}
+
+async function renderDelegTree() {
+  const certId = document.getElementById('dl-cert').value;
+  const box = document.getElementById('dl-tree');
+  const avail = document.getElementById('dl-available');
+  if (!certId) { box.innerHTML = '<span class="muted">无有效凭据</span>'; avail.textContent = ''; return; }
+  const tree = await getJson('/api/certificates/delegation-tree?certId=' + certId);
+  const t = tree.totals;
+  avail.textContent = t.allocatable == null
+    ? '不限次凭据,可继续分配'
+    : `当前剩余可分配 ${t.allocatable}(总 ${t.maxUses}/已用 ${t.used}/有效委托预留 ${t.activeReserved})`;
+  box.innerHTML = `
+    <div>凭据 <b class="mono">${certId}</b> · ${esc(purposeName(tree.certificate.purpose))}</div>
+    <div class="hr" style="margin:6px 0"></div>
+    <div>总额度 <b>${t.maxUses == null ? '∞' : t.maxUses}</b> · 已用 <b>${t.used}</b>
+      (持有方直用 ${t.directUsed} / 受托消费 ${t.delegatedUsed})</div>
+    <div>有效委托剩余预留 <b>${t.activeReserved}</b> · 仍可新分配 <b>${t.allocatable == null ? '∞' : t.allocatable}</b></div>
+    <div class="hr" style="margin:6px 0"></div>
+    ${tree.delegations.length ? tree.delegations.map((d) => `
+      <div class="small" style="margin:2px 0">
+        <span class="mono">${d.id}</span> → ${esc(d.trusteeName)}:
+        <b>${d.usedCount}/${d.quota}</b>(余 ${d.remaining}) · ${esc(DELEG_STATUS[d.liveStatus] ? DELEG_STATUS[d.liveStatus][1] : d.status)}
+      </div>`).join('') : '<div class="muted small">尚无下级委托</div>'}`;
+}
+
+document.getElementById('btn-grant-deleg').onclick = async () => {
+  const certId = document.getElementById('dl-cert').value;
+  const trusteeId = document.getElementById('dl-trustee').value;
+  const quota = Number(document.getElementById('dl-quota').value);
+  const ttlDays = Number(document.getElementById('dl-ttl').value);
+  const opLimitRaw = document.getElementById('dl-oplimit').value.trim();
+  const perOperatorLimit = opLimitRaw === '' ? null : Number(opLimitRaw);
+  const operatorAllowlist = document.getElementById('dl-allowops').value
+    .split(',').map((s) => s.trim()).filter(Boolean);
+  if (!certId) return toast('请选择有效父级凭据', 'error');
+  if (!trusteeId) return toast('请选择受托合作机构', 'error');
+  const cert = lastCerts.find((c) => c.id === certId);
+  try {
+    const r = await api('/api/certificates/delegations/grant', {
+      actorId: document.getElementById('is-actor').value,
+      certId, trusteeId, scenario: cert.purpose,
+      quota, ttlDays, perOperatorLimit, operatorAllowlist,
+      reqId: EWR.genReqId('DLGGRANT')
+    });
+    toast(`委托 ${r.delegation.id} 已分配给 ${r.delegation.trusteeName}:额度 ${r.delegation.quota},已上链`, 'success', 6000);
+    document.getElementById('dl-quota').value = '1';
+    await Promise.all([loadCerts(), loadDelegations(), loadVerifications()]);
+  } catch (e) { toast('分配被拒:' + e.message, 'error', 9000); }
+};
+window.reclaimDeleg = async (id) => {
+  if (!confirm('收回该委托的未用额度?收回后旧授权立即失效,受托机构无法继续消费(已消耗次数不回收)。')) return;
+  try {
+    const r = await api('/api/certificates/delegations/reclaim', {
+      actorId: document.getElementById('is-actor').value || 'REG-1',
+      delegationId: id,
+      reqId: EWR.genReqId('DLGRECLAIM')
+    });
+    toast(`已收回 ${r.returned} 次未用额度并退回凭据池,旧授权已失效`, 'success', 6000);
+    await Promise.all([loadCerts(), loadDelegations(), loadVerifications()]);
+  } catch (e) { toast('收回失败:' + e.message, 'error'); }
+};
+document.getElementById('btn-refresh-delegs').onclick = async () => {
+  await Promise.all([loadCerts(), loadDelegations(), loadVerifications()]);
 };
 
 /* -------------------------------- 密钥管理 -------------------------------- */
@@ -240,8 +345,8 @@ window.revokeKey = async (kid) => {
   if (!confirm(`应急吊销 ${kid}?该密钥签发的全部证明将立即不再受信(区别于正常轮换)!`)) return;
   try {
     await api('/api/cert-keys/revoke', { actorId: 'REG-1', keyId: kid });
-    toast(`密钥 ${kid} 已应急吊销`, 'success');
-    await Promise.all([loadKeys(), loadCerts()]);
+    toast(`密钥 ${kid} 已应急吊销,其签发凭据的全部下级委托同步停止`, 'success', 7000);
+    await Promise.all([loadKeys(), loadCerts(), loadDelegations()]);
   } catch (e) { toast('吊销失败:' + e.message, 'error'); }
 };
 

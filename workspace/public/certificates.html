@@ -83,9 +83,62 @@
     </div>
   </div>
 
+  <!-- 机构级查验额度委托 -->
+  <div class="card" style="margin-top:16px">
+    <h2>④ 机构级查验额度委托(把总次数分配给合作机构)
+      <button style="margin-left:auto" id="btn-refresh-delegs">刷新</button>
+    </h2>
+    <p class="small muted">持有方可把凭据总次数中的一部分委托给指定合作机构,并限定<b>业务场景、起止时间、单次操作人</b>。
+      受托机构只能消费自己的额度;总额度、各机构已用量与剩余在并发下均不超扣。
+      <b>收回未用额度后旧授权立即失效</b>;凭据作废 / 密钥紧急停用 / 上级额度耗尽时,全部下级授权同步停止。</p>
+    <div class="grid cols-2">
+      <div class="scenario">
+        <h3>分配新委托</h3>
+        <div class="form-row">
+          <label class="fld">父级凭据
+            <select id="dl-cert"></select>
+          </label>
+          <label class="fld">受托合作机构
+            <select id="dl-trustee"></select>
+          </label>
+        </div>
+        <div class="form-row">
+          <label class="fld">分配次数(受剩余可分配额度限制)
+            <input id="dl-quota" type="number" min="1" value="1">
+          </label>
+          <label class="fld">有效天数(止于凭据有效期内)
+            <input id="dl-ttl" type="number" min="1" value="3">
+          </label>
+          <label class="fld">单次操作人上限(留空=不限)
+            <input id="dl-oplimit" type="number" min="1" placeholder="如 1">
+          </label>
+        </div>
+        <label class="fld">允许操作人名单(逗号分隔,留空=不限制)
+          <input id="dl-allowops" placeholder="如 op-zhang,op-li">
+        </label>
+        <div class="hr"></div>
+        <div class="row-actions">
+          <button class="primary" id="btn-grant-deleg">分配委托额度</button>
+          <span id="dl-available" class="small muted"></span>
+        </div>
+        <p class="small muted" style="margin-top:6px">业务场景自动取凭据用途,委托与消费两侧都必须一致;委托时间窗不得超出凭据有效期。</p>
+      </div>
+      <div class="scenario">
+        <h3>额度树速览(按所选父级凭据)</h3>
+        <div id="dl-tree" class="small"></div>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <div class="table-wrap" style="max-height:360px">
+      <table id="tbl-delegs"><thead><tr>
+        <th>委托号</th><th>父凭据/场景</th><th>受托机构</th><th>额度(已用/余)</th><th>时间窗</th><th>操作人限制</th><th>状态</th><th>操作</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+
   <!-- 密钥管理 -->
   <div class="card" style="margin-top:16px">
-    <h2>④ 签名密钥管理(监管方)
+    <h2>⑤ 签名密钥管理(监管方)
       <span style="margin-left:auto" class="row-actions">
         <button class="primary" onclick="doRotate()">轮换密钥(旧证明继续可验)</button>
       </span>
@@ -101,7 +154,7 @@
 
   <!-- 监管回放 -->
   <div class="card" style="margin-top:16px">
-    <h2>⑤ 核验与撤销监管回放(成功/拒绝严格按序,失败重试可辨)
+    <h2>⑥ 核验与撤销监管回放(成功/拒绝严格按序,失败重试可辨)
       <button style="margin-left:auto" onclick="loadVerifications()">查询</button>
     </h2>
     <div class="form-row" style="margin-bottom:10px">

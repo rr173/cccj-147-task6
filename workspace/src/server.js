@@ -6,7 +6,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const { load, DomainError, getState } = require('./storage');
+const { load, DomainError, getState, readState } = require('./storage');
 const domain = require('./domain');
 const certs = require('./certificates');
 const certCore = require('./cert-core');
@@ -197,6 +197,7 @@ const routes = {
   'POST /api/certificates/verify': (b) => certs.verifyCertificateOnline(b),
   'GET /api/certificates': (b, q) =>
     certs.queryCertificates({
+      certId: q.get('certId') || undefined,
       receiptId: q.get('receiptId') || undefined,
       issuedBy: q.get('issuedBy') || undefined,
       purpose: q.get('purpose') || undefined,
@@ -208,6 +209,25 @@ const routes = {
       purpose: q.get('purpose') || undefined,
       valid: q.get('valid') || undefined
     }),
+  /* ----------------------- 机构级查验额度委托:分配 / 消费 / 收回 / 监管树 ----------------------- */
+  'POST /api/certificates/delegations/grant': (b) => certs.grantDelegation(b),
+  'POST /api/certificates/delegations/consume': (b) => certs.consumeDelegation(b),
+  'POST /api/certificates/delegations/reclaim': (b) => certs.reclaimDelegation(b),
+  'GET /api/certificates/delegations': (b, q) =>
+    certs.queryDelegations({
+      certId: q.get('certId') || undefined,
+      trusteeId: q.get('trusteeId') || undefined,
+      grantedBy: q.get('grantedBy') || undefined,
+      status: q.get('status') || undefined
+    }),
+  'GET /api/certificates/delegations/verdicts': (b, q) =>
+    certs.queryDelegationVerdicts({
+      certId: q.get('certId') || undefined,
+      delegationId: q.get('delegationId') || undefined,
+      trusteeId: q.get('trusteeId') || undefined,
+      valid: q.get('valid') || undefined
+    }),
+  'GET /api/certificates/delegation-tree': (b, q) => certs.delegationTree(q.get('certId')),
   'GET /api/certificates/audit': () => certs.certificateAudit(),
   'GET /api/certificates/anchors': () => ({ anchors: certs.trustAnchors(), at: Date.now() }),
   /* ----------------------- 签名密钥管理(监管方) ----------------------- */
@@ -228,6 +248,8 @@ const server = http.createServer(async (req, res) => {
       const handler = routes[key];
       if (!handler) throw new DomainError('NOT_FOUND', `无此接口:${key}`);
       const body = req.method === 'GET' ? {} : await readBody(req);
+      // GET 在写队列当前尾之后读,避免在 async 写事务提交间隙读到中间投影
+      if (req.method === 'GET') await readState();
       const result = await handler(body, url.searchParams);
       return sendJson(res, 200, { ok: true, data: result });
     }

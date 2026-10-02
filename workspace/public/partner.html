@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>合作机构 · 受托查验额度台</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div id="topbar"></div>
+<main>
+  <div class="banner">
+    🤝 <b>合作机构受托查验台</b>:这里展示权利凭据持有方分配给本机构的<b>可用授权</b>。
+    受托机构<b>只能消费自己的额度</b>;每次消费必须声明业务场景与单次操作人,并携带唯一<b>业务流水号</b>——
+    相同流水再次提交(断网/失败重试)返回第一次裁决,不重复扣次。授权被收回、凭据作废、密钥紧急停用或上级额度耗尽时,消费立即被拒。
+  </div>
+
+  <div class="card">
+    <h2>① 选择本机构身份
+      <select id="pt-party" style="margin-left:12px;max-width:360px"></select>
+      <button style="margin-left:auto" id="btn-pt-refresh">刷新授权</button>
+    </h2>
+    <p class="small muted">演示环境在此切换合作机构;生产环境由登录身份确定,越权消费他机构额度会被服务端拒绝并留痕。</p>
+  </div>
+
+  <div class="grid cols-2" style="margin-top:16px">
+    <!-- 可用授权 -->
+    <div class="card">
+      <h2>② 可用受托授权</h2>
+      <div class="table-wrap" style="max-height:420px">
+        <table id="tbl-pt-delegs"><thead><tr>
+          <th>委托号</th><th>父凭据/场景</th><th>额度(已用/余)</th><th>时间窗</th><th>操作人限制</th><th>状态</th><th>操作</th>
+        </tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- 发起消费 -->
+    <div class="card">
+      <h2>③ 发起一次受托查验消费</h2>
+      <div class="form-row">
+        <label class="fld">委托授权号
+          <select id="pt-deleg"></select>
+        </label>
+        <label class="fld">业务场景
+          <input id="pt-scene" readonly style="background:#f1f5f9">
+        </label>
+      </div>
+      <div class="form-row">
+        <label class="fld">单次操作人工号
+          <input id="pt-operator" placeholder="如 op-zhang">
+        </label>
+        <label class="fld">业务流水号(唯一;失败重试保持不变)
+          <input id="pt-flowno" placeholder="留空自动生成">
+        </label>
+      </div>
+      <div class="row-actions">
+        <button class="primary" id="btn-consume">提交消费</button>
+        <button class="ghost" id="btn-new-flowno">换一个新流水号</button>
+      </div>
+      <p class="small muted" style="margin-top:8px">服务端在同一事务同时扣减「本机构受托额度」与「父凭据总账」,并发争抢由串行事务裁决,绝不超扣。</p>
+      <div id="pt-result" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <!-- 裁决回放 -->
+  <div class="card" style="margin-top:16px">
+    <h2>④ 本机构消费裁决回放(相同流水只形成一次裁决;成功/拒绝均留痕上链)
+      <button style="margin-left:auto" onclick="loadPtVerdicts()">查询</button>
+    </h2>
+    <div class="form-row" style="margin-bottom:10px">
+      <label class="fld">结果
+        <select id="pt-valid"><option value="">全部</option><option value="true">通过</option><option value="false">拒绝</option></select>
+      </label>
+    </div>
+    <div class="table-wrap" style="max-height:360px">
+      <table id="tbl-pt-verdicts"><thead><tr>
+        <th>#</th><th>时间</th><th>业务流水号</th><th>委托/凭据</th><th>场景</th><th>操作人</th>
+        <th>结论</th><th>原因码 / 说明</th><th>受托(余)/父(余)</th><th>链事件</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</main>
+<script src="/common.js"></script>
+<script src="/cert-core.js"></script>
+<script src="/partner.js"></script>
+</body>
+</html>

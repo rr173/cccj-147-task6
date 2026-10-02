@@ -17,6 +17,9 @@ const EVENT_CN = {
   PLEDGE_TRANSFER_REJECTED: '转让生效拒绝',
   CERT_KEY_CREATED: '证明密钥创建', CERT_KEY_ROTATED: '证明密钥轮换', CERT_KEY_REVOKED: '证明密钥应急吊销',
   CERT_ISSUED: '权利证明签发', CERT_REVOKED: '权利证明撤销', CERT_VERIFIED: '权利证明在线核验通过',
+  CERT_DELEG_GRANTED: '机构查验额度分配', CERT_DELEG_VERIFIED: '受托机构消费通过',
+  CERT_DELEG_DENIED: '受托机构消费拒绝', CERT_DELEG_RECLAIMED: '委托未用额度收回',
+  CERT_DELEG_STOPPED: '下级授权级联停止',
   VALUATION_BATCH_CREATED: '估值批次发布', ATTEMPT_LOGGED: '操作留痕'
 };
 
@@ -44,6 +47,8 @@ window.loadCertAudit = async () => {
   const items = [
     ['有效证明', a.certificates.active], ['已过期', a.certificates.expired], ['已撤销', a.certificates.revoked],
     ['次数耗尽', a.certificates.exhausted], ['核验通过', a.verifications.passed], ['核验拒绝', a.verifications.rejected],
+    ['生效委托', a.delegations.active], ['受托消费/拒绝', a.delegations.consumes + ' / ' + a.delegations.denied],
+    ['已收回/停止委托', a.delegations.reclaimed + ' / ' + a.delegations.stopped],
     ['当前密钥', a.keys.active], ['已轮换密钥', a.keys.rotated], ['已吊销密钥', a.keys.revoked]
   ];
   document.getElementById('cert-stats').innerHTML = items
@@ -58,6 +63,62 @@ window.loadCertAudit = async () => {
     <div class="small">在线核验 <b>${a.verifications.total}</b> 次:通过 ${a.verifications.passed} · 拒绝 ${a.verifications.rejected}(失败/重放不重复扣次)</div>
     <div class="small ${a.chain.ok ? 'tag-good' : 'tag-bad'}" style="margin-top:4px">证明相关事件已纳入同一哈希链:${a.chain.ok ? '链验签通过' : '链异常'}</div>`;
 };
+
+/* ----------------------------- 机构级委托额度树 ----------------------------- */
+const DT_STATUS = {
+  ACTIVE: ['green', '生效中'], PENDING_START: ['blue', '待生效'], EXPIRED: ['gray', '已过期'],
+  RECLAIMED: ['gray', '已收回'], STOPPED: ['red', '已级联停止'], EXHAUSTED: ['amber', '额度用完']
+};
+function purposeNameReg(code) {
+  const map = {
+    DUE_DILIGENCE: '交易对手尽调', TRADE_CONFIRM: '贸易背景核实', INSURANCE: '保险投保/理赔',
+    COURT_EVIDENCE: '司法举证', REGULATORY_CHECK: '监管检查', OTHER: '其他一次性用途'
+  };
+  return map[code] || code;
+}
+window.loadDelegTree = async () => {
+  const certId = document.getElementById('dt-cert').value.trim();
+  if (!certId) return toast('请输入父级凭据号(如 CRT0001)', 'error');
+  let tree;
+  try { tree = await getJson('/api/certificates/delegation-tree?certId=' + encodeURIComponent(certId)); }
+  catch (e) { toast('查询失败:' + e.message, 'error'); return; }
+  const t = tree.totals;
+  document.getElementById('dt-summary').innerHTML = `
+    <b class="mono">${tree.certificate.id}</b> · ${esc(purposeNameReg(tree.certificate.purpose))} ·
+    密钥 <span class="mono">${esc(tree.certificate.keyId)}</span>(<span class="${tree.certificate.keyStatus === 'REVOKED' ? 'tag-bad' : 'muted'}">${esc(tree.certificate.keyStatus)}</span>) ·
+    凭据状态 <b>${esc(tree.certificate.validityNow)}</b>
+    <div class="hr" style="margin:6px 0"></div>
+    总额度 <b>${t.maxUses == null ? '∞' : t.maxUses}</b> · 已用 <b>${t.used}</b>
+    (持有方直用 ${t.directUsed} / 受托消费 ${t.delegatedUsed}) ·
+    有效委托剩余预留 <b>${t.activeReserved}</b> · 仍可新分配 <b>${t.allocatable == null ? '∞' : t.allocatable}</b>
+    <div class="small muted" style="margin-top:4px">不变量:已用 + 各生效委托剩余预留 ≤ 总额度;并发由 FIFO 串行事务裁决,总额度与机构额度均不超扣。</div>`;
+  const tb = document.querySelector('#tbl-dt-delegs tbody');
+  tb.innerHTML = tree.delegations.map((d) => {
+    const [cls, text] = DT_STATUS[d.liveStatus] || DT_STATUS[d.status] || ['gray', d.status];
+    return `<tr>
+      <td class="mono"><b>${d.id}</b><div class="small muted">由 ${esc(d.grantedByName)}</div></td>
+      <td class="small">${esc(d.trusteeName)}<div class="muted mono">${esc(d.trusteeId)}</div></td>
+      <td class="small">${esc(purposeNameReg(d.scenario))}</td>
+      <td><b>${d.quota}</b></td>
+      <td>${d.usedCount}/<b>${d.remaining}</b></td>
+      <td class="small">${fmtTime(d.startsAt)}<br><span class="muted">至 ${fmtTime(d.endsAt)}</span></td>
+      <td class="small">${d.perOperatorLimit == null ? '单人不限' : '单人≤' + d.perOperatorLimit}<div class="muted">${d.operatorAllowlist && d.operatorAllowlist.length ? esc(d.operatorAllowlist.join(',')) : '无名单'}</div></td>
+      <td><span class="badge ${cls}">${text}</span>${d.stopReason ? `<div class="small tag-bad">${esc(d.stopReason)}</div>` : ''}</td>
+      <td class="small">${d.reclaimedQuota != null ? `已收回 ${d.reclaimedQuota}<div class="muted">${fmtTime(d.reclaimedAt)}</div>` : '—'}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="9" class="muted">该凭据尚无下级机构委托。</td></tr>';
+  const eb = document.querySelector('#tbl-dt-events tbody');
+  eb.innerHTML = tree.events.map((e) => `<tr>
+    <td>${e.seq}</td>
+    <td class="small">${fmtTime(e.ts)}</td>
+    <td>${EVENT_CN[e.type] || e.type}</td>
+    <td class="small">${esc(e.trusteeId || '')}</td>
+    <td class="mono small">${esc(e.delegationId || (e.payload.delegationIds ? e.payload.delegationIds.join(',') : ''))}</td>
+    <td class="chain-line">${esc(JSON.stringify(e.payload))}</td>
+    <td class="chain-line">${shortHash(e.hash, 12)}</td>
+  </tr>`).join('');
+};
+document.getElementById('dt-cert').addEventListener('keydown', (e) => { if (e.key === 'Enter') loadDelegTree(); });
 
 function renderChain() {
   const c = STATE.audit.chain;
