@@ -17,6 +17,8 @@ const EVENT_CN = {
   PLEDGE_TRANSFER_REJECTED: '转让生效拒绝',
   CERT_KEY_CREATED: '证明密钥创建', CERT_KEY_ROTATED: '证明密钥轮换', CERT_KEY_REVOKED: '证明密钥应急吊销',
   CERT_ISSUED: '权利证明签发', CERT_REVOKED: '权利证明撤销', CERT_VERIFIED: '权利证明在线核验通过',
+  CERT_QUOTA_DELEGATED: '查验额度委托', CERT_DELEGATED_VERIFIED: '受托机构查验通过',
+  CERT_QUOTA_RECLAIMED: '委托额度收回', CERT_DELEGATION_HALTED: '下级授权级联停止', CERT_DELEGATION_AUDIT: '委托动作审计(含拒绝)',
   VALUATION_BATCH_CREATED: '估值批次发布', ATTEMPT_LOGGED: '操作留痕'
 };
 
@@ -53,10 +55,14 @@ window.loadCertAudit = async () => {
     <div class="small">当前 <b>${a.keys.active}</b> · 已轮换(旧证明仍受信)<b>${a.keys.rotated}</b> · 应急吊销 <b>${a.keys.revoked}</b></div>
     <div class="small muted" style="margin-top:4px">轮换前签发的证明按签发规则继续验真;密钥应急吊销后其签发证明一律拒绝。</div>`;
   const certBox = document.getElementById('audit-certs');
+  const dl = a.delegations || { total: 0, active: 0, halted: 0, reclaimed: 0, consumed: 0, reserved: 0, auditDenied: 0, overbooked: [] };
   certBox.innerHTML = `<b>⑥ 权利证明与核验</b><div class="hr" style="margin:6px 0"></div>
     <div class="small">证明总数 <b>${a.certificates.total}</b>(有效 ${a.certificates.active} / 过期 ${a.certificates.expired} / 撤销 ${a.certificates.revoked})</div>
     <div class="small">在线核验 <b>${a.verifications.total}</b> 次:通过 ${a.verifications.passed} · 拒绝 ${a.verifications.rejected}(失败/重放不重复扣次)</div>
-    <div class="small ${a.chain.ok ? 'tag-good' : 'tag-bad'}" style="margin-top:4px">证明相关事件已纳入同一哈希链:${a.chain.ok ? '链验签通过' : '链异常'}</div>`;
+    <div class="small" style="margin-top:4px">机构委托 <b>${dl.total}</b> 笔(生效 ${dl.active} / 级联停止 ${dl.halted} / 已收回 ${dl.reclaimed});受托累计消费 <b>${dl.consumed}</b> 次,活跃预占 ${dl.reserved} 次,拒绝留痕 ${dl.auditDenied} 条。
+      在下方「机构查验额度委托树」按父凭据号查看完整额度树。</div>
+    <div class="small ${(!dl.overbooked || dl.overbooked.length === 0) ? 'tag-good' : 'tag-bad'}" style="margin-top:4px">${(!dl.overbooked || dl.overbooked.length === 0) ? '✔ 全部凭据已用+预占 ≤ 总额(并发无超扣)' : '✘ 发现超扣凭据:' + JSON.stringify(dl.overbooked)}</div>
+    <div class="small ${a.chain.ok ? 'tag-good' : 'tag-bad'}">证明/委托事件已纳入同一哈希链:${a.chain.ok ? '链验签通过' : '链异常'}</div>`;
 };
 
 function renderChain() {
@@ -303,4 +309,58 @@ window.newBatch = async () => {
 };
 
 document.getElementById('filter').addEventListener('input', renderReceipts);
+
+/* ------------------------- 机构查验额度委托树 ------------------------- */
+window.loadQuotaTree = async () => {
+  const certId = document.getElementById('qt-cert').value.trim();
+  if (!certId) return toast('请输入父凭据号(如 CRT0001)', 'error');
+  let tree;
+  try { tree = await getJson('/api/certificates/quota-tree?certId=' + encodeURIComponent(certId)); }
+  catch (e) { return toast('查询失败:' + e.message, 'error'); }
+  const p = tree.parent;
+  document.getElementById('qt-summary').innerHTML = `
+    <div class="grid cols-3">
+      <div class="scenario"><b>父凭据 ${esc(tree.certId)}</b><div class="hr" style="margin:6px 0"></div>
+        <div class="small">委托方:${esc(tree.issuedByName)}(${esc(tree.issuedBy)})</div>
+        <div class="small">场景:${esc(tree.purpose)} · 状态:${esc(tree.status)} · 到期 ${fmtTime(tree.expiresAt)}</div></div>
+      <div class="scenario"><b>总额度 ${p.maxUses == null ? '不限' : p.maxUses}</b><div class="hr" style="margin:6px 0"></div>
+        <div class="small">已消费(含受托)<b>${p.usedCount}</b> · 活跃预占 <b>${p.reservedCount}</b></div>
+        <div class="small">可再委托/直接核验 <b>${p.delegatableRemaining == null ? '∞' : p.delegatableRemaining}</b> · 总余 ${p.totalRemaining == null ? '∞' : p.totalRemaining}</div></div>
+      <div class="scenario"><b>对账</b><div class="hr" style="margin:6px 0"></div>
+        <div class="${p.maxUses == null || p.usedCount + p.reservedCount <= p.maxUses ? 'tag-good' : 'tag-bad'}">
+          ${p.maxUses == null ? '不限次凭据' : (p.usedCount + p.reservedCount <= p.maxUses ? '✔ 已用+预占 ≤ 总额(无超扣)' : '✘ 超扣异常')}</div>
+        <div class="small muted">各授权已用合计 ${tree.reconciliation.sumDelegationUsed} · 活跃授权剩余合计 ${tree.reconciliation.sumActiveQuotaRemaining}</div></div>
+    </div>`;
+  const tb = document.querySelector('#tbl-qt tbody');
+  tb.innerHTML = tree.delegations.map((d) => {
+    const map = {
+      ACTIVE: ['green', '生效中'], HALTED: ['red', '已级联停止'], RECLAIMED: ['gray', '已收回'],
+      EXPIRED: ['gray', '已过期'], PENDING_START: ['blue', '未到生效'], EXHAUSTED: ['amber', '已用罄']
+    };
+    const [cls, text] = map[d.effectiveStatus] || ['gray', d.effectiveStatus];
+    const why = d.status === 'HALTED' ? '上级' + (d.haltReason === 'KEY_REVOKED' ? '密钥应急吊销' : '凭据作废')
+      : d.status === 'RECLAIMED' ? (esc(d.reclaimReason || '委托方收回')) : (d.unusableCode || '');
+    return `<tr>
+      <td><b>${d.id}</b></td>
+      <td class="small">${esc(d.granteeName)}<div class="muted mono">${esc(d.granteeId)}</div></td>
+      <td class="small">${esc(d.scenarioName)}<div class="muted mono">${esc(d.scenario)}</div></td>
+      <td class="small">${fmtTime(d.startsAt)}<br><span class="muted">至 ${fmtTime(d.expiresAt)}</span></td>
+      <td>${d.quota}</td><td>${d.usedCount}</td><td><b>${d.remaining}</b></td>
+      <td><span class="badge ${cls}">${text}</span></td>
+      <td class="small mono">${d.operatorIds.map((o) => esc(o)).join('、')}</td>
+      <td class="small ${d.status === 'ACTIVE' ? 'muted' : 'tag-bad'}">${why}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="10" class="muted">该凭据暂无下级委托</td></tr>';
+  const te = document.querySelector('#tbl-qt-events tbody');
+  te.innerHTML = tree.events.map((e) => `<tr>
+    <td>${e.seq}</td>
+    <td class="small">${fmtTime(e.ts)}</td>
+    <td>${EVENT_CN[e.type] || e.type}</td>
+    <td class="small">${esc(e.actorId || '—')}</td>
+    <td class="mono small">${esc(e.payload.delegationId || '')}</td>
+    <td class="chain-line">${esc(JSON.stringify(e.payload))}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="muted">暂无委托事件</td></tr>';
+};
+document.getElementById('qt-cert').addEventListener('keydown', (e) => { if (e.key === 'Enter') loadQuotaTree(); });
+
 load();

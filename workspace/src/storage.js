@@ -38,7 +38,7 @@ class DomainError extends Error {
 
 function freshState() {
   return {
-    seq: { receipt: 0, event: 0, batch: 0, pledge: 0, valuation: 0, release: 0, delivery: 0, operation: 0, transfer: 0, certKey: 0, certificate: 0 },
+    seq: { receipt: 0, event: 0, batch: 0, pledge: 0, valuation: 0, release: 0, delivery: 0, operation: 0, transfer: 0, certKey: 0, certificate: 0, certDelegation: 0, certDelegationLog: 0 },
     commodities: [], // {id,name,unit}
     grades: [],      // {id,commodityId,name,basePrice}
     locations: [],   // {id,warehouseId,name,capacity,commodityId}
@@ -54,6 +54,8 @@ function freshState() {
     certKeys: [],    // 证明签名密钥(ACTIVE/ROTATED/REVOKED;轮换后旧密钥仍为旧证明提供验真信任锚)
     certificates: [], // 对外权利证明记录(含签发正文、用途、次数、撤销状态)
     certificateVerifications: [], // 在线核验结论(按 nonce 幂等,成功扣次/失败不扣,并发确定)
+    certDelegations: [], // 机构级查验额度委托(从凭据总次数中预占一部分给指定合作机构;ACTIVE/HALTED/RECLAIMED)
+    certDelegationAudit: [], // 委托/消费/收回/拒绝的审计台账(成功与拒绝均落盘并上链,严格按序)
     operationRecords: [], // 融资方操作会话留痕(成功/冲突/拒绝,与业务事务同提交;失败单独留痕)
     idempotency: {}, // key -> 回执对象
     events: []       // append-only 权利链
@@ -99,10 +101,14 @@ function load() {
     if (!Array.isArray(state.certKeys)) state.certKeys = [];
     if (!Array.isArray(state.certificates)) state.certificates = [];
     if (!Array.isArray(state.certificateVerifications)) state.certificateVerifications = [];
+    if (!Array.isArray(state.certDelegations)) state.certDelegations = [];
+    if (!Array.isArray(state.certDelegationAudit)) state.certDelegationAudit = [];
     if (!state.seq.operation) state.seq.operation = state.operationRecords.length;
     if (!state.seq.transfer) state.seq.transfer = state.transfers.length;
     if (!state.seq.certKey) state.seq.certKey = state.certKeys.length;
     if (!state.seq.certificate) state.seq.certificate = state.certificates.length;
+    if (!state.seq.certDelegation) state.seq.certDelegation = state.certDelegations.length;
+    if (!state.seq.certDelegationLog) state.seq.certDelegationLog = state.certDelegationAudit.length;
   } catch (e) {
     if (e.code !== 'ENOENT') throw e;
     state = freshState();

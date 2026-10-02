@@ -1,0 +1,3953 @@
+{
+  "seq": {
+    "receipt": 5,
+    "event": 86,
+    "batch": 5,
+    "pledge": 5,
+    "valuation": 1,
+    "release": 1,
+    "delivery": 1,
+    "operation": 47,
+    "transfer": 7,
+    "certKey": 0,
+    "certificate": 0,
+    "certDelegation": 0,
+    "certDelegationLog": 0
+  },
+  "commodities": [
+    {
+      "id": "CU",
+      "name": "阴极铜",
+      "unit": "吨"
+    },
+    {
+      "id": "AL",
+      "name": "电解铝",
+      "unit": "吨"
+    }
+  ],
+  "grades": [
+    {
+      "id": "CU-A",
+      "commodityId": "CU",
+      "name": "A级铜(99.95%)",
+      "basePrice": 72000
+    },
+    {
+      "id": "CU-B",
+      "commodityId": "CU",
+      "name": "B级铜(99.90%)",
+      "basePrice": 69000
+    },
+    {
+      "id": "AL-A",
+      "commodityId": "AL",
+      "name": "A级铝锭(99.70%)",
+      "basePrice": 19800
+    },
+    {
+      "id": "AL-B",
+      "commodityId": "AL",
+      "name": "B级铝锭(99.50%)",
+      "basePrice": 18600
+    }
+  ],
+  "locations": [
+    {
+      "id": "LOC-A1",
+      "warehouseId": "WH-1",
+      "name": "A区1号铜仓位",
+      "capacity": 5000,
+      "commodityId": "CU"
+    },
+    {
+      "id": "LOC-A2",
+      "warehouseId": "WH-1",
+      "name": "A区2号铜仓位",
+      "capacity": 5000,
+      "commodityId": "CU"
+    },
+    {
+      "id": "LOC-B1",
+      "warehouseId": "WH-1",
+      "name": "B区1号铝仓位",
+      "capacity": 8000,
+      "commodityId": "AL"
+    }
+  ],
+  "parties": [
+    {
+      "id": "WH-1",
+      "type": "warehouse",
+      "name": "华东保税仓储有限公司"
+    },
+    {
+      "id": "FIN-ICBC",
+      "type": "financer",
+      "name": "鼎信银行供应链金融部"
+    },
+    {
+      "id": "FIN-CMB",
+      "type": "financer",
+      "name": "远航银行动产融资中心"
+    },
+    {
+      "id": "ENT-HONGTAI",
+      "type": "enterprise",
+      "name": "宏泰铜业有限公司"
+    },
+    {
+      "id": "ENT-LVYE",
+      "type": "enterprise",
+      "name": "绿野铝业有限公司"
+    },
+    {
+      "id": "REG-1",
+      "type": "regulator",
+      "name": "地方金融监督管理局"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "WR0001",
+      "warehouseId": "WH-1",
+      "locationId": "LOC-A1",
+      "commodityId": "CU",
+      "gradeId": "CU-A",
+      "holderId": "ENT-HONGTAI",
+      "inspectionBatchId": "IB0001",
+      "startQty": 0,
+      "endQty": 1000,
+      "version": 1,
+      "status": "ACTIVE",
+      "parentIds": [],
+      "createdAt": 1790650816284,
+      "deliveredQty": 0
+    },
+    {
+      "id": "WR0002",
+      "warehouseId": "WH-1",
+      "locationId": "LOC-A2",
+      "commodityId": "CU",
+      "gradeId": "CU-A",
+      "holderId": "ENT-HONGTAI",
+      "inspectionBatchId": "IB0002",
+      "startQty": 0,
+      "endQty": 600,
+      "version": 1,
+      "status": "ACTIVE",
+      "parentIds": [],
+      "createdAt": 1790650816284,
+      "deliveredQty": 0
+    },
+    {
+      "id": "WR0003",
+      "warehouseId": "WH-1",
+      "locationId": "LOC-B1",
+      "commodityId": "AL",
+      "gradeId": "AL-A",
+      "holderId": "ENT-LVYE",
+      "inspectionBatchId": "IB0003",
+      "startQty": 0,
+      "endQty": 1980,
+      "version": 2,
+      "status": "DELIVERED_PARTIAL",
+      "parentIds": [],
+      "createdAt": 1790650816284,
+      "deliveredQty": 20
+    },
+    {
+      "id": "WR0004",
+      "warehouseId": "WH-1",
+      "locationId": "LOC-A2",
+      "commodityId": "CU",
+      "gradeId": "CU-A",
+      "holderId": "ENT-HONGTAI",
+      "inspectionBatchId": "IB0004",
+      "startQty": 600,
+      "endQty": 700,
+      "version": 1,
+      "status": "ACTIVE",
+      "parentIds": [],
+      "createdAt": 1790910016390,
+      "deliveredQty": 0
+    },
+    {
+      "id": "WR0005",
+      "warehouseId": "WH-1",
+      "locationId": "LOC-A1",
+      "commodityId": "CU",
+      "gradeId": "CU-A",
+      "holderId": "ENT-HONGTAI",
+      "inspectionBatchId": "IB0005",
+      "startQty": 1000,
+      "endQty": 1050,
+      "version": 1,
+      "status": "ACTIVE",
+      "parentIds": [],
+      "createdAt": 1790910016434,
+      "deliveredQty": 0
+    }
+  ],
+  "pledges": [
+    {
+      "id": "PL0001",
+      "receiptId": "WR0001",
+      "receiptVersion": 1,
+      "valuationBatchId": "VB0001",
+      "financerId": "FIN-ICBC",
+      "pledgorId": "ENT-HONGTAI",
+      "loanAmount": 40000000,
+      "ltvCap": 50750000,
+      "lockedValue": 72500000,
+      "currentValue": 72500000,
+      "latestValue": 72500000,
+      "coveredAmount": 100,
+      "currency": "CNY",
+      "status": "REGISTERED",
+      "publicClaimAllowed": true,
+      "registration": {
+        "registrationNo": "REG179091001628810ys",
+        "registeredAt": 1790910016288,
+        "registrar": "登记中心",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001"
+      },
+      "rightsVersion": 3,
+      "currentTransferId": null,
+      "createdAt": 1790910016286,
+      "revaluationCount": 0
+    },
+    {
+      "id": "PL0002",
+      "receiptId": "WR0002",
+      "receiptVersion": 1,
+      "valuationBatchId": "VB0001",
+      "financerId": "FIN-ICBC",
+      "pledgorId": "ENT-HONGTAI",
+      "loanAmount": 20000000,
+      "ltvCap": 30450000,
+      "lockedValue": 43500000,
+      "currentValue": 43500000,
+      "latestValue": 43500000,
+      "coveredAmount": 0,
+      "currency": "CNY",
+      "status": "REGISTERED",
+      "publicClaimAllowed": true,
+      "registration": {
+        "registrationNo": "REG1790910016320x7nx",
+        "registeredAt": 1790910016321,
+        "registrar": "登记中心",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001"
+      },
+      "rightsVersion": 1,
+      "currentTransferId": "TR0007",
+      "createdAt": 1790910016319,
+      "revaluationCount": 0
+    },
+    {
+      "id": "PL0003",
+      "receiptId": "WR0003",
+      "receiptVersion": 1,
+      "valuationBatchId": "VB0001",
+      "financerId": "FIN-CMB",
+      "pledgorId": "ENT-LVYE",
+      "loanAmount": 10000000,
+      "ltvCap": 27860000,
+      "lockedValue": 39800000,
+      "currentValue": 39800000,
+      "latestValue": 39800000,
+      "coveredAmount": 0,
+      "currency": "CNY",
+      "status": "REGISTERED",
+      "publicClaimAllowed": true,
+      "registration": {
+        "registrationNo": "REG17909100163545yxc",
+        "registeredAt": 1790910016354,
+        "registrar": "登记中心",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001"
+      },
+      "rightsVersion": 2,
+      "currentTransferId": null,
+      "createdAt": 1790910016352,
+      "revaluationCount": 0
+    },
+    {
+      "id": "PL0004",
+      "receiptId": "WR0004",
+      "receiptVersion": 1,
+      "valuationBatchId": "VB0001",
+      "financerId": "FIN-ICBC",
+      "pledgorId": "ENT-HONGTAI",
+      "loanAmount": 1000000,
+      "ltvCap": 5075000,
+      "lockedValue": 7250000,
+      "currentValue": 7250000,
+      "latestValue": 7250000,
+      "coveredAmount": 1000000,
+      "currency": "CNY",
+      "status": "REGISTERED",
+      "publicClaimAllowed": true,
+      "registration": {
+        "registrationNo": "REG17909100163951ypo",
+        "registeredAt": 1790910016396,
+        "registrar": "登记中心",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001"
+      },
+      "rightsVersion": 1,
+      "currentTransferId": null,
+      "createdAt": 1790910016393,
+      "revaluationCount": 0
+    },
+    {
+      "id": "PL0005",
+      "receiptId": "WR0005",
+      "receiptVersion": 1,
+      "valuationBatchId": "VB0001",
+      "financerId": "FIN-CMB",
+      "pledgorId": "ENT-HONGTAI",
+      "loanAmount": 1000000,
+      "ltvCap": 2537500,
+      "lockedValue": 3625000,
+      "currentValue": 3625000,
+      "latestValue": 3625000,
+      "coveredAmount": 0,
+      "currency": "CNY",
+      "status": "LOCKED",
+      "publicClaimAllowed": false,
+      "registration": null,
+      "rightsVersion": 1,
+      "currentTransferId": null,
+      "createdAt": 1790910016437,
+      "revaluationCount": 0
+    }
+  ],
+  "valuationBatches": [
+    {
+      "id": "VB0001",
+      "note": "2026年9月第4周市场价格",
+      "prices": {
+        "CU-A": 72500,
+        "CU-B": 69500,
+        "AL-A": 19900,
+        "AL-B": 18700
+      },
+      "createdAt": 1790737216284,
+      "createdBy": "REG-1"
+    }
+  ],
+  "inspectionBatches": [
+    {
+      "id": "IB0001",
+      "receiptId": "WR0001",
+      "locationId": "LOC-A1",
+      "gradeId": "CU-A",
+      "qty": 1000,
+      "inspectedAt": 1790650816284,
+      "kind": "INITIAL"
+    },
+    {
+      "id": "IB0002",
+      "receiptId": "WR0002",
+      "locationId": "LOC-A2",
+      "gradeId": "CU-A",
+      "qty": 600,
+      "inspectedAt": 1790650816284,
+      "kind": "INITIAL"
+    },
+    {
+      "id": "IB0003",
+      "receiptId": "WR0003",
+      "locationId": "LOC-B1",
+      "gradeId": "AL-A",
+      "qty": 2000,
+      "inspectedAt": 1790650816284,
+      "kind": "INITIAL"
+    },
+    {
+      "id": "IB0004",
+      "receiptId": "WR0004",
+      "locationId": "LOC-A2",
+      "gradeId": "CU-A",
+      "qty": 100,
+      "inspectedAt": 1790910016390,
+      "kind": "INITIAL"
+    },
+    {
+      "id": "IB0005",
+      "receiptId": "WR0005",
+      "locationId": "LOC-A1",
+      "gradeId": "CU-A",
+      "qty": 50,
+      "inspectedAt": 1790910016434,
+      "kind": "INITIAL"
+    }
+  ],
+  "releases": [
+    {
+      "id": "RL0001",
+      "pledgeId": "PL0003",
+      "receiptId": "WR0003",
+      "financerId": "FIN-ICBC",
+      "qty": 20,
+      "remaining": 1980,
+      "token": "TKN-RL0001-1A6X6660",
+      "consumed": true,
+      "createdAt": 1790910016364,
+      "usedQty": 20
+    }
+  ],
+  "deliveries": [
+    {
+      "id": "DL0001",
+      "receiptId": "WR0003",
+      "qty": 20,
+      "releaseId": "RL0001",
+      "pledgeId": "PL0003",
+      "at": 1790910016378,
+      "actorId": "WH-1"
+    }
+  ],
+  "supplements": [],
+  "transfers": [
+    {
+      "id": "TR0001",
+      "pledgeId": "PL0001",
+      "receiptId": "WR0001",
+      "fromFinancerId": "FIN-ICBC",
+      "toFinancerId": "FIN-CMB",
+      "status": "EFFECTIVE",
+      "expectedRightsVersion": 1,
+      "rightsVersionAfter": 2,
+      "confirmedFrom": true,
+      "confirmedTo": true,
+      "confirmations": [
+        {
+          "side": "from",
+          "actorId": "FIN-ICBC",
+          "at": 1790910016294,
+          "idempotencyKey": "transfer-confirm:REQ-yn5gd6oy"
+        },
+        {
+          "side": "to",
+          "actorId": "FIN-CMB",
+          "at": 1790910016297,
+          "idempotencyKey": "transfer-confirm:REQ-qjobtdpz"
+        }
+      ],
+      "createdAt": 1790910016291,
+      "createdBy": "FIN-ICBC",
+      "effectiveAt": 1790910016297,
+      "withdrawnBy": null,
+      "withdrawnAt": null,
+      "rejectCode": null,
+      "rejectReason": null
+    },
+    {
+      "id": "TR0002",
+      "pledgeId": "PL0001",
+      "receiptId": "WR0001",
+      "fromFinancerId": "FIN-CMB",
+      "toFinancerId": "FIN-ICBC",
+      "status": "EFFECTIVE",
+      "expectedRightsVersion": 2,
+      "rightsVersionAfter": 3,
+      "confirmedFrom": true,
+      "confirmedTo": true,
+      "confirmations": [
+        {
+          "side": "from",
+          "actorId": "FIN-CMB",
+          "at": 1790910016314,
+          "idempotencyKey": "transfer-confirm:REQ-kjap1jzn"
+        },
+        {
+          "side": "to",
+          "actorId": "FIN-ICBC",
+          "at": 1790910016316,
+          "idempotencyKey": "transfer-confirm:REQ-cmubjf7l"
+        }
+      ],
+      "createdAt": 1790910016311,
+      "createdBy": "FIN-CMB",
+      "effectiveAt": 1790910016316,
+      "withdrawnBy": null,
+      "withdrawnAt": null,
+      "rejectCode": null,
+      "rejectReason": null
+    },
+    {
+      "id": "TR0003",
+      "pledgeId": "PL0002",
+      "receiptId": "WR0002",
+      "fromFinancerId": "FIN-ICBC",
+      "toFinancerId": "FIN-CMB",
+      "status": "WITHDRAWN",
+      "expectedRightsVersion": 1,
+      "rightsVersionAfter": null,
+      "confirmedFrom": true,
+      "confirmedTo": false,
+      "confirmations": [
+        {
+          "side": "from",
+          "actorId": "FIN-ICBC",
+          "at": 1790910016333,
+          "idempotencyKey": "transfer-confirm:CFSAME"
+        }
+      ],
+      "createdAt": 1790910016323,
+      "createdBy": "FIN-ICBC",
+      "effectiveAt": null,
+      "withdrawnBy": "FIN-CMB",
+      "withdrawnAt": 1790910016415,
+      "rejectCode": null,
+      "rejectReason": null
+    },
+    {
+      "id": "TR0004",
+      "pledgeId": "PL0003",
+      "receiptId": "WR0003",
+      "fromFinancerId": "FIN-ICBC",
+      "toFinancerId": "FIN-CMB",
+      "status": "REJECTED",
+      "expectedRightsVersion": 1,
+      "rightsVersionAfter": null,
+      "confirmedFrom": true,
+      "confirmedTo": true,
+      "confirmations": [
+        {
+          "side": "from",
+          "actorId": "FIN-ICBC",
+          "at": 1790910016360,
+          "idempotencyKey": "transfer-confirm:REQ-zn0mm03x"
+        },
+        {
+          "side": "to",
+          "actorId": "FIN-CMB",
+          "at": 1790910016367,
+          "idempotencyKey": "transfer-confirm:REQ-ir95ojgy"
+        }
+      ],
+      "createdAt": 1790910016357,
+      "createdBy": "FIN-ICBC",
+      "effectiveAt": null,
+      "withdrawnBy": null,
+      "withdrawnAt": null,
+      "rejectCode": "RELEASE_EXISTS",
+      "rejectReason": "质押 PL0003 已存在生效放行单 RL0001(令牌 TKN-RL0001-1A6X6660,剩余 20 吨),须先核销/用罄后方可交接质权"
+    },
+    {
+      "id": "TR0005",
+      "pledgeId": "PL0003",
+      "receiptId": "WR0003",
+      "fromFinancerId": "FIN-ICBC",
+      "toFinancerId": "FIN-CMB",
+      "status": "EFFECTIVE",
+      "expectedRightsVersion": 1,
+      "rightsVersionAfter": 2,
+      "confirmedFrom": true,
+      "confirmedTo": true,
+      "confirmations": [
+        {
+          "side": "from",
+          "actorId": "FIN-ICBC",
+          "at": 1790910016383,
+          "idempotencyKey": "transfer-confirm:REQ-nn3qhz5i"
+        },
+        {
+          "side": "to",
+          "actorId": "FIN-CMB",
+          "at": 1790910016386,
+          "idempotencyKey": "transfer-confirm:REQ-6gvwtu12"
+        }
+      ],
+      "createdAt": 1790910016381,
+      "createdBy": "FIN-ICBC",
+      "effectiveAt": 1790910016386,
+      "withdrawnBy": null,
+      "withdrawnAt": null,
+      "rejectCode": null,
+      "rejectReason": null
+    },
+    {
+      "id": "TR0006",
+      "pledgeId": "PL0004",
+      "receiptId": "WR0004",
+      "fromFinancerId": "FIN-ICBC",
+      "toFinancerId": "FIN-CMB",
+      "status": "REJECTED",
+      "expectedRightsVersion": 1,
+      "rightsVersionAfter": null,
+      "confirmedFrom": true,
+      "confirmedTo": true,
+      "confirmations": [
+        {
+          "side": "from",
+          "actorId": "FIN-ICBC",
+          "at": 1790910016403,
+          "idempotencyKey": "transfer-confirm:REQ-vgio6llw"
+        },
+        {
+          "side": "to",
+          "actorId": "FIN-CMB",
+          "at": 1790910016410,
+          "idempotencyKey": "transfer-confirm:REQ-sbs6ca6d"
+        }
+      ],
+      "createdAt": 1790910016400,
+      "createdBy": "FIN-ICBC",
+      "effectiveAt": null,
+      "withdrawnBy": null,
+      "withdrawnAt": null,
+      "rejectCode": "PLEDGE_SETTLED",
+      "rejectReason": "质押 PL0004 已全额清偿(敞口为 0),质权已无担保利益,转让不生效"
+    },
+    {
+      "id": "TR0007",
+      "pledgeId": "PL0002",
+      "receiptId": "WR0002",
+      "fromFinancerId": "FIN-ICBC",
+      "toFinancerId": "FIN-CMB",
+      "status": "PENDING",
+      "expectedRightsVersion": 1,
+      "rightsVersionAfter": null,
+      "confirmedFrom": false,
+      "confirmedTo": false,
+      "confirmations": [],
+      "createdAt": 1790910016431,
+      "createdBy": "FIN-ICBC",
+      "effectiveAt": null,
+      "withdrawnBy": null,
+      "withdrawnAt": null,
+      "rejectCode": null,
+      "rejectReason": null
+    }
+  ],
+  "certKeys": [],
+  "certificates": [],
+  "certificateVerifications": [],
+  "certDelegations": [],
+  "certDelegationAudit": [],
+  "operationRecords": [
+    {
+      "id": "OP0001",
+      "seq": 1,
+      "at": 1790910016286,
+      "action": "lock",
+      "actionLabel": "锁仓",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "pledge-lock:REQ-3m9ga48f",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-3m9ga48f",
+        "receiptId": "WR0001",
+        "financerId": "FIN-ICBC",
+        "valuationBatchId": "VB0001",
+        "loanAmount": 40000000
+      },
+      "ref": {
+        "pledgeId": "PL0001",
+        "receiptId": "WR0001",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "status": "LOCKED"
+      },
+      "eventSeq": 2
+    },
+    {
+      "id": "OP0002",
+      "seq": 2,
+      "at": 1790910016288,
+      "action": "register",
+      "actionLabel": "质押登记",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "register:REG179091001628810ys",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "pledgeId": "PL0001",
+        "registrationNo": "REG179091001628810ys",
+        "expectedVersion": 1
+      },
+      "ref": {
+        "pledgeId": "PL0001",
+        "registrationNo": "REG179091001628810ys",
+        "registeredAt": 1790910016288,
+        "registrar": "登记中心",
+        "receiptVersion": 1
+      },
+      "eventSeq": 4
+    },
+    {
+      "id": "OP0003",
+      "seq": 3,
+      "at": 1790910016291,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "transfer-apply:REQ-5w42ht35",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-5w42ht35",
+        "pledgeId": "PL0001",
+        "actorId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0001",
+        "pledgeId": "PL0001",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": false,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 6
+    },
+    {
+      "id": "OP0004",
+      "seq": 4,
+      "at": 1790910016294,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "transfer-confirm:REQ-yn5gd6oy",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "原质权人已确认,等待受让机构确认",
+      "request": {
+        "reqId": "REQ-yn5gd6oy",
+        "transferId": "TR0001",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": {
+        "transferId": "TR0001",
+        "pledgeId": "PL0001",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 8
+    },
+    {
+      "id": "OP0005",
+      "seq": 5,
+      "at": 1790910016297,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "transfer-confirm:REQ-qjobtdpz",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "双方确认且通过生效闸口,质权人已切换",
+      "request": {
+        "reqId": "REQ-qjobtdpz",
+        "transferId": "TR0001",
+        "actorId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0001",
+        "pledgeId": "PL0001",
+        "status": "EFFECTIVE",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": true,
+        "effectiveAt": 1790910016297,
+        "rejectCode": null
+      },
+      "eventSeq": 11
+    },
+    {
+      "id": "OP0006",
+      "seq": 6,
+      "at": 1790910016300,
+      "action": "release",
+      "actionLabel": "质权人放行",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "release:REQ-zxrkvjfy",
+      "outcome": "REJECTED",
+      "reasonCode": "FORBIDDEN",
+      "reason": "仅当前质权人 FIN-CMB 可放行货物,FIN-ICBC 的请求拒绝",
+      "request": {
+        "reqId": "REQ-zxrkvjfy",
+        "pledgeId": "PL0001",
+        "qty": 10
+      },
+      "ref": null,
+      "eventSeq": 12
+    },
+    {
+      "id": "OP0007",
+      "seq": 7,
+      "at": 1790910016302,
+      "action": "repay",
+      "actionLabel": "还款",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": null,
+      "outcome": "REJECTED",
+      "reasonCode": "FORBIDDEN",
+      "reason": "仅当前质权人 FIN-CMB 或出质人可还款,FIN-ICBC 已不是该质押的权利人",
+      "request": {
+        "pledgeId": "PL0001",
+        "amount": 100,
+        "actorId": "FIN-ICBC"
+      },
+      "ref": null,
+      "eventSeq": 13
+    },
+    {
+      "id": "OP0008",
+      "seq": 8,
+      "at": 1790910016304,
+      "action": "register",
+      "actionLabel": "质押登记",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "register:REG1790910016304xyzc",
+      "outcome": "REJECTED",
+      "reasonCode": "FORBIDDEN",
+      "reason": "仅当前质权人 FIN-CMB 可登记,FIN-ICBC 的请求拒绝",
+      "request": {
+        "pledgeId": "PL0001",
+        "registrationNo": "REG1790910016304xyzc",
+        "expectedVersion": 1
+      },
+      "ref": null,
+      "eventSeq": 14
+    },
+    {
+      "id": "OP0009",
+      "seq": 9,
+      "at": 1790910016306,
+      "action": "repay",
+      "actionLabel": "还款",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": null,
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "pledgeId": "PL0001",
+        "amount": 100,
+        "actorId": "FIN-CMB"
+      },
+      "ref": {
+        "pledgeId": "PL0001",
+        "status": "REGISTERED",
+        "exposure": 39999900
+      },
+      "eventSeq": 16
+    },
+    {
+      "id": "OP0010",
+      "seq": 10,
+      "at": 1790910016308,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "transfer-confirm:REQ-rwlot92a",
+      "outcome": "CONFLICT",
+      "reasonCode": "TRANSFER_EFFECTIVE",
+      "reason": "转让 TR0001 已生效,权利人已切换为 FIN-CMB,重复确认不改变状态",
+      "request": {
+        "reqId": "REQ-rwlot92a",
+        "transferId": "TR0001",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": null,
+      "eventSeq": 17
+    },
+    {
+      "id": "OP0011",
+      "seq": 11,
+      "at": 1790910016310,
+      "action": "transferWithdraw",
+      "actionLabel": "撤回质权转让",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "transfer-withdraw:REQ-s2xkwaeq",
+      "outcome": "CONFLICT",
+      "reasonCode": "TRANSFER_EFFECTIVE",
+      "reason": "转让 TR0001 已生效,质权已交接,不能撤回",
+      "request": {
+        "reqId": "REQ-s2xkwaeq",
+        "transferId": "TR0001",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": null,
+      "eventSeq": 18
+    },
+    {
+      "id": "OP0012",
+      "seq": 12,
+      "at": 1790910016311,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "transfer-apply:REQ-mmtdkd38",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-mmtdkd38",
+        "pledgeId": "PL0001",
+        "actorId": "FIN-CMB",
+        "toFinancerId": "FIN-ICBC"
+      },
+      "ref": {
+        "transferId": "TR0002",
+        "pledgeId": "PL0001",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-CMB",
+        "toFinancerId": "FIN-ICBC",
+        "expectedRightsVersion": 2,
+        "confirmedFrom": false,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 20
+    },
+    {
+      "id": "OP0013",
+      "seq": 13,
+      "at": 1790910016314,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "transfer-confirm:REQ-kjap1jzn",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "原质权人已确认,等待受让机构确认",
+      "request": {
+        "reqId": "REQ-kjap1jzn",
+        "transferId": "TR0002",
+        "actorId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0002",
+        "pledgeId": "PL0001",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-CMB",
+        "toFinancerId": "FIN-ICBC",
+        "expectedRightsVersion": 2,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 22
+    },
+    {
+      "id": "OP0014",
+      "seq": 14,
+      "at": 1790910016316,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "idempotencyKey": "transfer-confirm:REQ-cmubjf7l",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "双方确认且通过生效闸口,质权人已切换",
+      "request": {
+        "reqId": "REQ-cmubjf7l",
+        "transferId": "TR0002",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": {
+        "transferId": "TR0002",
+        "pledgeId": "PL0001",
+        "status": "EFFECTIVE",
+        "fromFinancerId": "FIN-CMB",
+        "toFinancerId": "FIN-ICBC",
+        "expectedRightsVersion": 2,
+        "confirmedFrom": true,
+        "confirmedTo": true,
+        "effectiveAt": 1790910016316,
+        "rejectCode": null
+      },
+      "eventSeq": 25
+    },
+    {
+      "id": "OP0015",
+      "seq": 15,
+      "at": 1790910016319,
+      "action": "lock",
+      "actionLabel": "锁仓",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "pledge-lock:REQ-o63bpp1l",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-o63bpp1l",
+        "receiptId": "WR0002",
+        "financerId": "FIN-ICBC",
+        "valuationBatchId": "VB0001",
+        "loanAmount": 20000000
+      },
+      "ref": {
+        "pledgeId": "PL0002",
+        "receiptId": "WR0002",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "status": "LOCKED"
+      },
+      "eventSeq": 27
+    },
+    {
+      "id": "OP0016",
+      "seq": 16,
+      "at": 1790910016321,
+      "action": "register",
+      "actionLabel": "质押登记",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "register:REG1790910016320x7nx",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "pledgeId": "PL0002",
+        "registrationNo": "REG1790910016320x7nx",
+        "expectedVersion": 1
+      },
+      "ref": {
+        "pledgeId": "PL0002",
+        "registrationNo": "REG1790910016320x7nx",
+        "registeredAt": 1790910016321,
+        "registrar": "登记中心",
+        "receiptVersion": 1
+      },
+      "eventSeq": 29
+    },
+    {
+      "id": "OP0017",
+      "seq": 17,
+      "at": 1790910016323,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-apply:REQ-cnmhf7zp",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-cnmhf7zp",
+        "pledgeId": "PL0002",
+        "actorId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0003",
+        "pledgeId": "PL0002",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": false,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 31
+    },
+    {
+      "id": "OP0018",
+      "seq": 18,
+      "at": 1790910016325,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-apply:REQ-ppqpl32f",
+      "outcome": "CONFLICT",
+      "reasonCode": "TRANSFER_ALREADY_PENDING",
+      "reason": "质押 PL0002 已有待确认转让 TR0003(FIN-ICBC → FIN-CMB),任一方撤回后方可重新发起",
+      "request": {
+        "reqId": "REQ-ppqpl32f",
+        "pledgeId": "PL0002",
+        "actorId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB"
+      },
+      "ref": null,
+      "eventSeq": 32
+    },
+    {
+      "id": "OP0019",
+      "seq": 19,
+      "at": 1790910016333,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-confirm:CFSAME",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "原质权人已确认,等待受让机构确认",
+      "request": {
+        "reqId": "CFSAME",
+        "transferId": "TR0003",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": {
+        "transferId": "TR0003",
+        "pledgeId": "PL0002",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 34
+    },
+    {
+      "id": "OP0020",
+      "seq": 20,
+      "at": 1790910016337,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-confirm:REQ-bkewtyus",
+      "outcome": "CONFLICT",
+      "reasonCode": "ALREADY_CONFIRMED",
+      "reason": "FIN-ICBC 已确认过转让 TR0003;重复确认不改变状态(等待另一方确认)",
+      "request": {
+        "reqId": "REQ-bkewtyus",
+        "transferId": "TR0003",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": null,
+      "eventSeq": 35
+    },
+    {
+      "id": "OP0021",
+      "seq": 21,
+      "at": 1790910016340,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-confirm:CFSAME",
+      "outcome": "CONFLICT",
+      "reasonCode": "IDEMPOTENT_REPLAY",
+      "reason": "相同转让确认重放:返回申请 TR0003 的既有状态,不重复确认",
+      "request": {
+        "reqId": "CFSAME",
+        "transferId": "TR0003",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": {
+        "transferId": "TR0003",
+        "pledgeId": "PL0002",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 36
+    },
+    {
+      "id": "OP0022",
+      "seq": 22,
+      "at": 1790910016343,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "ENT-HONGTAI",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-confirm:REQ-p5jbwzs1",
+      "outcome": "REJECTED",
+      "reasonCode": "FORBIDDEN",
+      "reason": "ENT-HONGTAI 不是转让 TR0003 的参与方,仅 FIN-ICBC(原质权人)与 FIN-CMB(受让机构)可确认",
+      "request": {
+        "reqId": "REQ-p5jbwzs1",
+        "transferId": "TR0003",
+        "actorId": "ENT-HONGTAI"
+      },
+      "ref": null,
+      "eventSeq": 37
+    },
+    {
+      "id": "OP0023",
+      "seq": 23,
+      "at": 1790910016345,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-apply:REQ-kcf4abll",
+      "outcome": "REJECTED",
+      "reasonCode": "FORBIDDEN",
+      "reason": "仅当前质权人 FIN-ICBC 可发起质权转让,FIN-CMB 的请求拒绝",
+      "request": {
+        "reqId": "REQ-kcf4abll",
+        "pledgeId": "PL0002",
+        "actorId": "FIN-CMB",
+        "toFinancerId": "FIN-ICBC"
+      },
+      "ref": null,
+      "eventSeq": 38
+    },
+    {
+      "id": "OP0024",
+      "seq": 24,
+      "at": 1790910016348,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-confirm:REQ-sygfrx7i",
+      "outcome": "CONFLICT",
+      "reasonCode": "STALE_PLEDGE_VERSION",
+      "reason": "确认基于质权版本 r99,当前已为 r1(质权已交接),旧版确认拒绝",
+      "request": {
+        "reqId": "REQ-sygfrx7i",
+        "transferId": "TR0003",
+        "actorId": "FIN-CMB",
+        "expectedRightsVersion": 99
+      },
+      "ref": null,
+      "eventSeq": 39
+    },
+    {
+      "id": "OP0025",
+      "seq": 25,
+      "at": 1790910016352,
+      "action": "lock",
+      "actionLabel": "锁仓",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "pledge-lock:REQ-zz2prx57",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-zz2prx57",
+        "receiptId": "WR0003",
+        "financerId": "FIN-ICBC",
+        "valuationBatchId": "VB0001",
+        "loanAmount": 10000000
+      },
+      "ref": {
+        "pledgeId": "PL0003",
+        "receiptId": "WR0003",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "status": "LOCKED"
+      },
+      "eventSeq": 41
+    },
+    {
+      "id": "OP0026",
+      "seq": 26,
+      "at": 1790910016354,
+      "action": "register",
+      "actionLabel": "质押登记",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "register:REG17909100163545yxc",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "pledgeId": "PL0003",
+        "registrationNo": "REG17909100163545yxc",
+        "expectedVersion": 1
+      },
+      "ref": {
+        "pledgeId": "PL0003",
+        "registrationNo": "REG17909100163545yxc",
+        "registeredAt": 1790910016354,
+        "registrar": "登记中心",
+        "receiptVersion": 1
+      },
+      "eventSeq": 43
+    },
+    {
+      "id": "OP0027",
+      "seq": 27,
+      "at": 1790910016358,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "transfer-apply:REQ-5lb99503",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-5lb99503",
+        "pledgeId": "PL0003",
+        "actorId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0004",
+        "pledgeId": "PL0003",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": false,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 45
+    },
+    {
+      "id": "OP0028",
+      "seq": 28,
+      "at": 1790910016360,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "transfer-confirm:REQ-zn0mm03x",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "原质权人已确认,等待受让机构确认",
+      "request": {
+        "reqId": "REQ-zn0mm03x",
+        "transferId": "TR0004",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": {
+        "transferId": "TR0004",
+        "pledgeId": "PL0003",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 47
+    },
+    {
+      "id": "OP0029",
+      "seq": 29,
+      "at": 1790910016364,
+      "action": "release",
+      "actionLabel": "质权人放行",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "release:REQ-b5fhwdoc",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-b5fhwdoc",
+        "pledgeId": "PL0003",
+        "qty": 20
+      },
+      "ref": {
+        "releaseId": "RL0001",
+        "token": "TKN-RL0001-1A6X6660",
+        "qty": 20,
+        "remaining": 1980,
+        "receiptId": "WR0003"
+      },
+      "eventSeq": 49
+    },
+    {
+      "id": "OP0030",
+      "seq": 30,
+      "at": 1790910016367,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "transfer-confirm:REQ-ir95ojgy",
+      "outcome": "CONFLICT",
+      "reasonCode": "RELEASE_EXISTS",
+      "reason": "质押 PL0003 已存在生效放行单 RL0001(令牌 TKN-RL0001-1A6X6660,剩余 20 吨),须先核销/用罄后方可交接质权",
+      "request": {
+        "reqId": "REQ-ir95ojgy",
+        "transferId": "TR0004",
+        "actorId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0004",
+        "pledgeId": "PL0003",
+        "status": "REJECTED",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": true,
+        "effectiveAt": null,
+        "rejectCode": "RELEASE_EXISTS"
+      },
+      "eventSeq": 52
+    },
+    {
+      "id": "OP0031",
+      "seq": 31,
+      "at": 1790910016373,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "transfer-confirm:REQ-7c14jghp",
+      "outcome": "CONFLICT",
+      "reasonCode": "TRANSFER_REJECTED",
+      "reason": "转让 TR0004 已被拒绝(RELEASE_EXISTS),确认无效,当前权利人不变",
+      "request": {
+        "reqId": "REQ-7c14jghp",
+        "transferId": "TR0004",
+        "actorId": "FIN-CMB"
+      },
+      "ref": null,
+      "eventSeq": 53
+    },
+    {
+      "id": "OP0032",
+      "seq": 32,
+      "at": 1790910016381,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "transfer-apply:REQ-javnkgva",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-javnkgva",
+        "pledgeId": "PL0003",
+        "actorId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0005",
+        "pledgeId": "PL0003",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": false,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 56
+    },
+    {
+      "id": "OP0033",
+      "seq": 33,
+      "at": 1790910016383,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "transfer-confirm:REQ-nn3qhz5i",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "原质权人已确认,等待受让机构确认",
+      "request": {
+        "reqId": "REQ-nn3qhz5i",
+        "transferId": "TR0005",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": {
+        "transferId": "TR0005",
+        "pledgeId": "PL0003",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 58
+    },
+    {
+      "id": "OP0034",
+      "seq": 34,
+      "at": 1790910016386,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "idempotencyKey": "transfer-confirm:REQ-6gvwtu12",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "双方确认且通过生效闸口,质权人已切换",
+      "request": {
+        "reqId": "REQ-6gvwtu12",
+        "transferId": "TR0005",
+        "actorId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0005",
+        "pledgeId": "PL0003",
+        "status": "EFFECTIVE",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": true,
+        "effectiveAt": 1790910016386,
+        "rejectCode": null
+      },
+      "eventSeq": 61
+    },
+    {
+      "id": "OP0035",
+      "seq": 35,
+      "at": 1790910016393,
+      "action": "lock",
+      "actionLabel": "锁仓",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "idempotencyKey": "pledge-lock:REQ-py9x3tce",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-py9x3tce",
+        "receiptId": "WR0004",
+        "financerId": "FIN-ICBC",
+        "valuationBatchId": "VB0001",
+        "loanAmount": 1000000
+      },
+      "ref": {
+        "pledgeId": "PL0004",
+        "receiptId": "WR0004",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "status": "LOCKED"
+      },
+      "eventSeq": 64
+    },
+    {
+      "id": "OP0036",
+      "seq": 36,
+      "at": 1790910016396,
+      "action": "register",
+      "actionLabel": "质押登记",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "idempotencyKey": "register:REG17909100163951ypo",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "pledgeId": "PL0004",
+        "registrationNo": "REG17909100163951ypo",
+        "expectedVersion": 1
+      },
+      "ref": {
+        "pledgeId": "PL0004",
+        "registrationNo": "REG17909100163951ypo",
+        "registeredAt": 1790910016396,
+        "registrar": "登记中心",
+        "receiptVersion": 1
+      },
+      "eventSeq": 66
+    },
+    {
+      "id": "OP0037",
+      "seq": 37,
+      "at": 1790910016400,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "idempotencyKey": "transfer-apply:REQ-f6urbm0n",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-f6urbm0n",
+        "pledgeId": "PL0004",
+        "actorId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0006",
+        "pledgeId": "PL0004",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": false,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 68
+    },
+    {
+      "id": "OP0038",
+      "seq": 38,
+      "at": 1790910016403,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "idempotencyKey": "transfer-confirm:REQ-vgio6llw",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "原质权人已确认,等待受让机构确认",
+      "request": {
+        "reqId": "REQ-vgio6llw",
+        "transferId": "TR0006",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": {
+        "transferId": "TR0006",
+        "pledgeId": "PL0004",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 70
+    },
+    {
+      "id": "OP0039",
+      "seq": 39,
+      "at": 1790910016407,
+      "action": "repay",
+      "actionLabel": "还款",
+      "actorId": "ENT-HONGTAI",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "idempotencyKey": null,
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "pledgeId": "PL0004",
+        "amount": 1000000,
+        "actorId": "ENT-HONGTAI"
+      },
+      "ref": {
+        "pledgeId": "PL0004",
+        "status": "REGISTERED",
+        "exposure": 0
+      },
+      "eventSeq": 72
+    },
+    {
+      "id": "OP0040",
+      "seq": 40,
+      "at": 1790910016410,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "idempotencyKey": "transfer-confirm:REQ-sbs6ca6d",
+      "outcome": "CONFLICT",
+      "reasonCode": "PLEDGE_SETTLED",
+      "reason": "质押 PL0004 已全额清偿(敞口为 0),质权已无担保利益,转让不生效",
+      "request": {
+        "reqId": "REQ-sbs6ca6d",
+        "transferId": "TR0006",
+        "actorId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0006",
+        "pledgeId": "PL0004",
+        "status": "REJECTED",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": true,
+        "effectiveAt": null,
+        "rejectCode": "PLEDGE_SETTLED"
+      },
+      "eventSeq": 75
+    },
+    {
+      "id": "OP0041",
+      "seq": 41,
+      "at": 1790910016415,
+      "action": "transferWithdraw",
+      "actionLabel": "撤回质权转让",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-withdraw:WD-1",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": "转让申请已撤回,当前质权人不变,可重新发起",
+      "request": {
+        "reqId": "WD-1",
+        "transferId": "TR0003",
+        "actorId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0003",
+        "pledgeId": "PL0002",
+        "status": "WITHDRAWN",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 77
+    },
+    {
+      "id": "OP0042",
+      "seq": 42,
+      "at": 1790910016422,
+      "action": "transferConfirm",
+      "actionLabel": "质权转让确认",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-confirm:REQ-fgnk69bz",
+      "outcome": "CONFLICT",
+      "reasonCode": "TRANSFER_WITHDRAWN",
+      "reason": "转让 TR0003 已被 FIN-CMB 撤回,确认无效,当前权利人不变",
+      "request": {
+        "reqId": "REQ-fgnk69bz",
+        "transferId": "TR0003",
+        "actorId": "FIN-CMB"
+      },
+      "ref": null,
+      "eventSeq": 78
+    },
+    {
+      "id": "OP0043",
+      "seq": 43,
+      "at": 1790910016425,
+      "action": "transferWithdraw",
+      "actionLabel": "撤回质权转让",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-withdraw:REQ-n4f66aha",
+      "outcome": "CONFLICT",
+      "reasonCode": "TRANSFER_WITHDRAWN",
+      "reason": "转让 TR0003 已被 FIN-CMB 撤回,重复撤回不改变状态",
+      "request": {
+        "reqId": "REQ-n4f66aha",
+        "transferId": "TR0003",
+        "actorId": "FIN-ICBC"
+      },
+      "ref": null,
+      "eventSeq": 79
+    },
+    {
+      "id": "OP0044",
+      "seq": 44,
+      "at": 1790910016428,
+      "action": "transferWithdraw",
+      "actionLabel": "撤回质权转让",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-withdraw:WD-1",
+      "outcome": "CONFLICT",
+      "reasonCode": "IDEMPOTENT_REPLAY",
+      "reason": "相同撤回请求重放:申请 TR0003 保持 WITHDRAWN,不重复处理",
+      "request": {
+        "reqId": "WD-1",
+        "transferId": "TR0003",
+        "actorId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0003",
+        "pledgeId": "PL0002",
+        "status": "WITHDRAWN",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": true,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 80
+    },
+    {
+      "id": "OP0045",
+      "seq": 45,
+      "at": 1790910016431,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-ICBC",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "idempotencyKey": "transfer-apply:REQ-ch5qv249",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-ch5qv249",
+        "pledgeId": "PL0002",
+        "actorId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB"
+      },
+      "ref": {
+        "transferId": "TR0007",
+        "pledgeId": "PL0002",
+        "status": "PENDING",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "confirmedFrom": false,
+        "confirmedTo": false,
+        "effectiveAt": null,
+        "rejectCode": null
+      },
+      "eventSeq": 82
+    },
+    {
+      "id": "OP0046",
+      "seq": 46,
+      "at": 1790910016437,
+      "action": "lock",
+      "actionLabel": "锁仓",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0005",
+      "pledgeId": "PL0005",
+      "idempotencyKey": "pledge-lock:REQ-wqxfotd0",
+      "outcome": "SUCCESS",
+      "reasonCode": null,
+      "reason": null,
+      "request": {
+        "reqId": "REQ-wqxfotd0",
+        "receiptId": "WR0005",
+        "financerId": "FIN-CMB",
+        "valuationBatchId": "VB0001",
+        "loanAmount": 1000000
+      },
+      "ref": {
+        "pledgeId": "PL0005",
+        "receiptId": "WR0005",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "status": "LOCKED"
+      },
+      "eventSeq": 85
+    },
+    {
+      "id": "OP0047",
+      "seq": 47,
+      "at": 1790910016440,
+      "action": "transferApply",
+      "actionLabel": "质权转让申请",
+      "actorId": "FIN-CMB",
+      "sessionId": "SES-TRANSFER-6yeao",
+      "receiptId": "WR0005",
+      "pledgeId": "PL0005",
+      "idempotencyKey": "transfer-apply:REQ-7ou0ym50",
+      "outcome": "CONFLICT",
+      "reasonCode": "PLEDGE_NOT_REGISTERED",
+      "reason": "质押 PL0005 尚未登记,登记生效后方可办理质权转让",
+      "request": {
+        "reqId": "REQ-7ou0ym50",
+        "pledgeId": "PL0005",
+        "actorId": "FIN-CMB",
+        "toFinancerId": "FIN-ICBC"
+      },
+      "ref": null,
+      "eventSeq": 86
+    }
+  ],
+  "idempotency": {
+    "pledge-lock:REQ-3m9ga48f": {
+      "pledgeId": "PL0001",
+      "at": 1790910016286
+    },
+    "register:REG179091001628810ys": {
+      "pledgeId": "PL0001",
+      "at": 1790910016288
+    },
+    "transfer-apply:REQ-5w42ht35": {
+      "transferId": "TR0001",
+      "at": 1790910016291
+    },
+    "transfer-confirm:REQ-yn5gd6oy": {
+      "transferId": "TR0001",
+      "at": 1790910016294
+    },
+    "transfer-confirm:REQ-qjobtdpz": {
+      "transferId": "TR0001",
+      "at": 1790910016297
+    },
+    "transfer-apply:REQ-mmtdkd38": {
+      "transferId": "TR0002",
+      "at": 1790910016311
+    },
+    "transfer-confirm:REQ-kjap1jzn": {
+      "transferId": "TR0002",
+      "at": 1790910016314
+    },
+    "transfer-confirm:REQ-cmubjf7l": {
+      "transferId": "TR0002",
+      "at": 1790910016316
+    },
+    "pledge-lock:REQ-o63bpp1l": {
+      "pledgeId": "PL0002",
+      "at": 1790910016319
+    },
+    "register:REG1790910016320x7nx": {
+      "pledgeId": "PL0002",
+      "at": 1790910016321
+    },
+    "transfer-apply:REQ-cnmhf7zp": {
+      "transferId": "TR0003",
+      "at": 1790910016323
+    },
+    "transfer-confirm:CFSAME": {
+      "transferId": "TR0003",
+      "at": 1790910016333
+    },
+    "pledge-lock:REQ-zz2prx57": {
+      "pledgeId": "PL0003",
+      "at": 1790910016352
+    },
+    "register:REG17909100163545yxc": {
+      "pledgeId": "PL0003",
+      "at": 1790910016354
+    },
+    "transfer-apply:REQ-5lb99503": {
+      "transferId": "TR0004",
+      "at": 1790910016357
+    },
+    "transfer-confirm:REQ-zn0mm03x": {
+      "transferId": "TR0004",
+      "at": 1790910016360
+    },
+    "release:REQ-b5fhwdoc": {
+      "releaseId": "RL0001",
+      "at": 1790910016364
+    },
+    "transfer-confirm:REQ-ir95ojgy": {
+      "transferId": "TR0004",
+      "at": 1790910016367
+    },
+    "transfer-apply:REQ-javnkgva": {
+      "transferId": "TR0005",
+      "at": 1790910016381
+    },
+    "transfer-confirm:REQ-nn3qhz5i": {
+      "transferId": "TR0005",
+      "at": 1790910016383
+    },
+    "transfer-confirm:REQ-6gvwtu12": {
+      "transferId": "TR0005",
+      "at": 1790910016386
+    },
+    "pledge-lock:REQ-py9x3tce": {
+      "pledgeId": "PL0004",
+      "at": 1790910016393
+    },
+    "register:REG17909100163951ypo": {
+      "pledgeId": "PL0004",
+      "at": 1790910016396
+    },
+    "transfer-apply:REQ-f6urbm0n": {
+      "transferId": "TR0006",
+      "at": 1790910016400
+    },
+    "transfer-confirm:REQ-vgio6llw": {
+      "transferId": "TR0006",
+      "at": 1790910016403
+    },
+    "transfer-confirm:REQ-sbs6ca6d": {
+      "transferId": "TR0006",
+      "at": 1790910016410
+    },
+    "transfer-withdraw:WD-1": {
+      "transferId": "TR0003",
+      "at": 1790910016415
+    },
+    "transfer-apply:REQ-ch5qv249": {
+      "transferId": "TR0007",
+      "at": 1790910016431
+    },
+    "pledge-lock:REQ-wqxfotd0": {
+      "pledgeId": "PL0005",
+      "at": 1790910016437
+    }
+  },
+  "events": [
+    {
+      "seq": 1,
+      "ts": 1790910016286,
+      "type": "PLEDGE_LOCKED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "financerId": "FIN-ICBC",
+        "pledgorId": "ENT-HONGTAI",
+        "loanAmount": 40000000,
+        "lockedValue": 72500000,
+        "notice": "仅内部锁定,登记成功前不得对外宣称担保生效"
+      },
+      "prevHash": "GENESIS",
+      "hash": "9a65a3137ac730434bc99049cafee486410199bd2c6f868afebcf65dbcbf0c24"
+    },
+    {
+      "seq": 2,
+      "ts": 1790910016286,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0001",
+        "action": "lock",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "pledge-lock:REQ-3m9ga48f",
+        "ref": {
+          "pledgeId": "PL0001",
+          "receiptId": "WR0001",
+          "receiptVersion": 1,
+          "valuationBatchId": "VB0001",
+          "status": "LOCKED"
+        }
+      },
+      "prevHash": "9a65a3137ac730434bc99049cafee486410199bd2c6f868afebcf65dbcbf0c24",
+      "hash": "c99df95e441cdff1125ad6ceedfb7ef3eafcdcde8126218122ca02e378afd6b5"
+    },
+    {
+      "seq": 3,
+      "ts": 1790910016288,
+      "type": "PLEDGE_REGISTERED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "registrationNo": "REG179091001628810ys",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001"
+      },
+      "prevHash": "c99df95e441cdff1125ad6ceedfb7ef3eafcdcde8126218122ca02e378afd6b5",
+      "hash": "063e7974d07fcd2e2c0e1da6027e7eaa07eddd55d88475bcf12e340994369eb4"
+    },
+    {
+      "seq": 4,
+      "ts": 1790910016288,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0002",
+        "action": "register",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "register:REG179091001628810ys",
+        "ref": {
+          "pledgeId": "PL0001",
+          "registrationNo": "REG179091001628810ys",
+          "registeredAt": 1790910016288,
+          "registrar": "登记中心",
+          "receiptVersion": 1
+        }
+      },
+      "prevHash": "063e7974d07fcd2e2c0e1da6027e7eaa07eddd55d88475bcf12e340994369eb4",
+      "hash": "4856dc5aee17522811f65eb08a9ea0a92678c798c7f2995d66a6fa3b2667adc6"
+    },
+    {
+      "seq": 5,
+      "ts": 1790910016291,
+      "type": "PLEDGE_TRANSFER_APPLIED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0001",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "registrationNo": "REG179091001628810ys"
+      },
+      "prevHash": "4856dc5aee17522811f65eb08a9ea0a92678c798c7f2995d66a6fa3b2667adc6",
+      "hash": "a97f6f509e1cc66a7c12cfba95e049dbcdaded9da013dda4e88f4f207ed35cf1"
+    },
+    {
+      "seq": 6,
+      "ts": 1790910016291,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0003",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-apply:REQ-5w42ht35",
+        "ref": {
+          "transferId": "TR0001",
+          "pledgeId": "PL0001",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": false,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "a97f6f509e1cc66a7c12cfba95e049dbcdaded9da013dda4e88f4f207ed35cf1",
+      "hash": "86f9f0ec209228bf019fc3ba64327ae3be9c3cc7e4cac836e07f0b6d5f432fdf"
+    },
+    {
+      "seq": 7,
+      "ts": 1790910016294,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0001",
+        "side": "from",
+        "confirmedFrom": true,
+        "confirmedTo": false
+      },
+      "prevHash": "86f9f0ec209228bf019fc3ba64327ae3be9c3cc7e4cac836e07f0b6d5f432fdf",
+      "hash": "2b0b02af7ddfd02c5b7b6e002458281e7c6775bfedae0974914d93c5db5ff26d"
+    },
+    {
+      "seq": 8,
+      "ts": 1790910016294,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0004",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:REQ-yn5gd6oy",
+        "ref": {
+          "transferId": "TR0001",
+          "pledgeId": "PL0001",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "2b0b02af7ddfd02c5b7b6e002458281e7c6775bfedae0974914d93c5db5ff26d",
+      "hash": "514c15625dfa7b475867aa0c041348a9e945e41153c59c964b9ef4625e61359a"
+    },
+    {
+      "seq": 9,
+      "ts": 1790910016297,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0001",
+        "side": "to",
+        "confirmedFrom": true,
+        "confirmedTo": true
+      },
+      "prevHash": "514c15625dfa7b475867aa0c041348a9e945e41153c59c964b9ef4625e61359a",
+      "hash": "483f7c984d5af154f2b8137ef943aee34650906e598db1050aab0dd631da348c"
+    },
+    {
+      "seq": 10,
+      "ts": 1790910016297,
+      "type": "PLEDGE_TRANSFER_EFFECTIVE",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0001",
+        "oldFinancerId": "FIN-ICBC",
+        "newFinancerId": "FIN-CMB",
+        "rightsVersionAfter": 2,
+        "registrationNo": "REG179091001628810ys",
+        "voidedReleases": []
+      },
+      "prevHash": "483f7c984d5af154f2b8137ef943aee34650906e598db1050aab0dd631da348c",
+      "hash": "e38b22e5177275751c01376e79731906e06332ecb965c152f3ea114b1b27b5d7"
+    },
+    {
+      "seq": 11,
+      "ts": 1790910016297,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0005",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:REQ-qjobtdpz",
+        "ref": {
+          "transferId": "TR0001",
+          "pledgeId": "PL0001",
+          "status": "EFFECTIVE",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": true,
+          "effectiveAt": 1790910016297,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "e38b22e5177275751c01376e79731906e06332ecb965c152f3ea114b1b27b5d7",
+      "hash": "8a8d1bdb50f6e13044706f557fd5e3d098bf03237107a64117e30d708ea8de7e"
+    },
+    {
+      "seq": 12,
+      "ts": 1790910016300,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0006",
+        "action": "release",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "REJECTED",
+        "reasonCode": "FORBIDDEN",
+        "idempotencyKey": "release:REQ-zxrkvjfy",
+        "ref": null
+      },
+      "prevHash": "8a8d1bdb50f6e13044706f557fd5e3d098bf03237107a64117e30d708ea8de7e",
+      "hash": "a1927709e992a936317827f37ca6c888e768870e1df84f5451c17785a30dadc3"
+    },
+    {
+      "seq": 13,
+      "ts": 1790910016302,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0007",
+        "action": "repay",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "REJECTED",
+        "reasonCode": "FORBIDDEN",
+        "idempotencyKey": null,
+        "ref": null
+      },
+      "prevHash": "a1927709e992a936317827f37ca6c888e768870e1df84f5451c17785a30dadc3",
+      "hash": "e114b2af7ae23c2bee0ee211d0a6b780ce7380f9bca6dae3f6633f4178fe2b22"
+    },
+    {
+      "seq": 14,
+      "ts": 1790910016304,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0008",
+        "action": "register",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "REJECTED",
+        "reasonCode": "FORBIDDEN",
+        "idempotencyKey": "register:REG1790910016304xyzc",
+        "ref": null
+      },
+      "prevHash": "e114b2af7ae23c2bee0ee211d0a6b780ce7380f9bca6dae3f6633f4178fe2b22",
+      "hash": "9236539b6a3202319bbd44043608bb97cb5d9dd3ac4692f5e4c7f47b2fa9df54"
+    },
+    {
+      "seq": 15,
+      "ts": 1790910016306,
+      "type": "LOAN_REPAID",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "amount": 100,
+        "coveredAmount": 100,
+        "exposure": 39999900
+      },
+      "prevHash": "9236539b6a3202319bbd44043608bb97cb5d9dd3ac4692f5e4c7f47b2fa9df54",
+      "hash": "c4f652d7bcf9318a80178a9b503e561bb81be8b3e4517b3e017d30abcffb57be"
+    },
+    {
+      "seq": 16,
+      "ts": 1790910016306,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0009",
+        "action": "repay",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": null,
+        "ref": {
+          "pledgeId": "PL0001",
+          "status": "REGISTERED",
+          "exposure": 39999900
+        }
+      },
+      "prevHash": "c4f652d7bcf9318a80178a9b503e561bb81be8b3e4517b3e017d30abcffb57be",
+      "hash": "966a5f89e84b5f3f36789e9ec1273595373a569ae40364475e9f11e3c99e88ac"
+    },
+    {
+      "seq": 17,
+      "ts": 1790910016308,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0010",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "TRANSFER_EFFECTIVE",
+        "idempotencyKey": "transfer-confirm:REQ-rwlot92a",
+        "ref": null
+      },
+      "prevHash": "966a5f89e84b5f3f36789e9ec1273595373a569ae40364475e9f11e3c99e88ac",
+      "hash": "9c178c630e471c899fa977c07e40e5ef7c019e2102c5ce52454796363c9182db"
+    },
+    {
+      "seq": 18,
+      "ts": 1790910016310,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0011",
+        "action": "transferWithdraw",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "TRANSFER_EFFECTIVE",
+        "idempotencyKey": "transfer-withdraw:REQ-s2xkwaeq",
+        "ref": null
+      },
+      "prevHash": "9c178c630e471c899fa977c07e40e5ef7c019e2102c5ce52454796363c9182db",
+      "hash": "7a43f471f62d7cc5031b9dc2784602d2609856cd2c13f2e192359b1cf74e637f"
+    },
+    {
+      "seq": 19,
+      "ts": 1790910016311,
+      "type": "PLEDGE_TRANSFER_APPLIED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0002",
+        "fromFinancerId": "FIN-CMB",
+        "toFinancerId": "FIN-ICBC",
+        "expectedRightsVersion": 2,
+        "registrationNo": "REG179091001628810ys"
+      },
+      "prevHash": "7a43f471f62d7cc5031b9dc2784602d2609856cd2c13f2e192359b1cf74e637f",
+      "hash": "1c6d74d50e7b291ecd2d5e8071aa09e6bc44c86b88e023988d5b4fd089356f8a"
+    },
+    {
+      "seq": 20,
+      "ts": 1790910016311,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0012",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-apply:REQ-mmtdkd38",
+        "ref": {
+          "transferId": "TR0002",
+          "pledgeId": "PL0001",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-CMB",
+          "toFinancerId": "FIN-ICBC",
+          "expectedRightsVersion": 2,
+          "confirmedFrom": false,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "1c6d74d50e7b291ecd2d5e8071aa09e6bc44c86b88e023988d5b4fd089356f8a",
+      "hash": "400625ed37a65d9bc6bd0fb6e8cfaa1437a12a48e5f34dc96743dbbe68e3d4e6"
+    },
+    {
+      "seq": 21,
+      "ts": 1790910016314,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0002",
+        "side": "from",
+        "confirmedFrom": true,
+        "confirmedTo": false
+      },
+      "prevHash": "400625ed37a65d9bc6bd0fb6e8cfaa1437a12a48e5f34dc96743dbbe68e3d4e6",
+      "hash": "e94fbbc6d5ce6a2c82aa18083dc92bdff33b9bcdf7b0a9d06e9a54e5a31ab5da"
+    },
+    {
+      "seq": 22,
+      "ts": 1790910016314,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0013",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:REQ-kjap1jzn",
+        "ref": {
+          "transferId": "TR0002",
+          "pledgeId": "PL0001",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-CMB",
+          "toFinancerId": "FIN-ICBC",
+          "expectedRightsVersion": 2,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "e94fbbc6d5ce6a2c82aa18083dc92bdff33b9bcdf7b0a9d06e9a54e5a31ab5da",
+      "hash": "1c01e32c284821fdc689b746efad5d3858b28b78cc60a335d7723485a661fa39"
+    },
+    {
+      "seq": 23,
+      "ts": 1790910016316,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0002",
+        "side": "to",
+        "confirmedFrom": true,
+        "confirmedTo": true
+      },
+      "prevHash": "1c01e32c284821fdc689b746efad5d3858b28b78cc60a335d7723485a661fa39",
+      "hash": "9602259bd2cedfb2db75c346936669f76e893f0c10aed318d399dcaca4eea775"
+    },
+    {
+      "seq": 24,
+      "ts": 1790910016316,
+      "type": "PLEDGE_TRANSFER_EFFECTIVE",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0002",
+        "oldFinancerId": "FIN-CMB",
+        "newFinancerId": "FIN-ICBC",
+        "rightsVersionAfter": 3,
+        "registrationNo": "REG179091001628810ys",
+        "voidedReleases": []
+      },
+      "prevHash": "9602259bd2cedfb2db75c346936669f76e893f0c10aed318d399dcaca4eea775",
+      "hash": "aea05546ff2e80b06d40709bd4080b75799ebd9d82b21badd43e0663fb9a7c9b"
+    },
+    {
+      "seq": 25,
+      "ts": 1790910016316,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0001",
+      "pledgeId": "PL0001",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0014",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:REQ-cmubjf7l",
+        "ref": {
+          "transferId": "TR0002",
+          "pledgeId": "PL0001",
+          "status": "EFFECTIVE",
+          "fromFinancerId": "FIN-CMB",
+          "toFinancerId": "FIN-ICBC",
+          "expectedRightsVersion": 2,
+          "confirmedFrom": true,
+          "confirmedTo": true,
+          "effectiveAt": 1790910016316,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "aea05546ff2e80b06d40709bd4080b75799ebd9d82b21badd43e0663fb9a7c9b",
+      "hash": "67a23d350c1f607bfc789c4bb1d587ce64fab0dc62a70092b808be9deba56cb3"
+    },
+    {
+      "seq": 26,
+      "ts": 1790910016319,
+      "type": "PLEDGE_LOCKED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "financerId": "FIN-ICBC",
+        "pledgorId": "ENT-HONGTAI",
+        "loanAmount": 20000000,
+        "lockedValue": 43500000,
+        "notice": "仅内部锁定,登记成功前不得对外宣称担保生效"
+      },
+      "prevHash": "67a23d350c1f607bfc789c4bb1d587ce64fab0dc62a70092b808be9deba56cb3",
+      "hash": "3425c4d09ffdb4665a4300ae6f5e9a5630fa98e111886c96ac02c79fb1b51c5d"
+    },
+    {
+      "seq": 27,
+      "ts": 1790910016319,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0015",
+        "action": "lock",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "pledge-lock:REQ-o63bpp1l",
+        "ref": {
+          "pledgeId": "PL0002",
+          "receiptId": "WR0002",
+          "receiptVersion": 1,
+          "valuationBatchId": "VB0001",
+          "status": "LOCKED"
+        }
+      },
+      "prevHash": "3425c4d09ffdb4665a4300ae6f5e9a5630fa98e111886c96ac02c79fb1b51c5d",
+      "hash": "04db7469ce0e49af0b70a9f69bfece17d90b675aa2b07f96f62149b659e42732"
+    },
+    {
+      "seq": 28,
+      "ts": 1790910016321,
+      "type": "PLEDGE_REGISTERED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "registrationNo": "REG1790910016320x7nx",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001"
+      },
+      "prevHash": "04db7469ce0e49af0b70a9f69bfece17d90b675aa2b07f96f62149b659e42732",
+      "hash": "a155d4e57d7cb22bcb26e304f918f37637dbb27a9f23d8e6b46dce0eb1b26ca1"
+    },
+    {
+      "seq": 29,
+      "ts": 1790910016321,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0016",
+        "action": "register",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "register:REG1790910016320x7nx",
+        "ref": {
+          "pledgeId": "PL0002",
+          "registrationNo": "REG1790910016320x7nx",
+          "registeredAt": 1790910016321,
+          "registrar": "登记中心",
+          "receiptVersion": 1
+        }
+      },
+      "prevHash": "a155d4e57d7cb22bcb26e304f918f37637dbb27a9f23d8e6b46dce0eb1b26ca1",
+      "hash": "d6a2215e0a339e3d4405bad28eaa3dfa549707531d0375a65e3bee9302ec210a"
+    },
+    {
+      "seq": 30,
+      "ts": 1790910016323,
+      "type": "PLEDGE_TRANSFER_APPLIED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0003",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "registrationNo": "REG1790910016320x7nx"
+      },
+      "prevHash": "d6a2215e0a339e3d4405bad28eaa3dfa549707531d0375a65e3bee9302ec210a",
+      "hash": "30e36f9e85ace0af0099382c759ae48b74c634c44b435d1763dd58c68d9d29cc"
+    },
+    {
+      "seq": 31,
+      "ts": 1790910016323,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0017",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-apply:REQ-cnmhf7zp",
+        "ref": {
+          "transferId": "TR0003",
+          "pledgeId": "PL0002",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": false,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "30e36f9e85ace0af0099382c759ae48b74c634c44b435d1763dd58c68d9d29cc",
+      "hash": "b64dd9f8d3892085e7b93bbb6bb101ce96e485c580449556702327d38a4ac22a"
+    },
+    {
+      "seq": 32,
+      "ts": 1790910016325,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0018",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "TRANSFER_ALREADY_PENDING",
+        "idempotencyKey": "transfer-apply:REQ-ppqpl32f",
+        "ref": null
+      },
+      "prevHash": "b64dd9f8d3892085e7b93bbb6bb101ce96e485c580449556702327d38a4ac22a",
+      "hash": "70fe2e25442d10f07d55e3b0010ebaa760cc8ff7c6d34012270dd3139489d793"
+    },
+    {
+      "seq": 33,
+      "ts": 1790910016333,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0003",
+        "side": "from",
+        "confirmedFrom": true,
+        "confirmedTo": false
+      },
+      "prevHash": "70fe2e25442d10f07d55e3b0010ebaa760cc8ff7c6d34012270dd3139489d793",
+      "hash": "2176f3f484a13d27d8feaaf15e8a6dcd3502debd20d7cac21a171601d4ed7e6a"
+    },
+    {
+      "seq": 34,
+      "ts": 1790910016333,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0019",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:CFSAME",
+        "ref": {
+          "transferId": "TR0003",
+          "pledgeId": "PL0002",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "2176f3f484a13d27d8feaaf15e8a6dcd3502debd20d7cac21a171601d4ed7e6a",
+      "hash": "30ba98981ef95972b031d285cfc1ae18e25b202756e22c62a6c32c257b092f79"
+    },
+    {
+      "seq": 35,
+      "ts": 1790910016337,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0020",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "ALREADY_CONFIRMED",
+        "idempotencyKey": "transfer-confirm:REQ-bkewtyus",
+        "ref": null
+      },
+      "prevHash": "30ba98981ef95972b031d285cfc1ae18e25b202756e22c62a6c32c257b092f79",
+      "hash": "3d05d19393a5af56684eba81c18a8f68e154c30c3b73761c5fd448e70cf0e3a7"
+    },
+    {
+      "seq": 36,
+      "ts": 1790910016340,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0021",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "IDEMPOTENT_REPLAY",
+        "idempotencyKey": "transfer-confirm:CFSAME",
+        "ref": {
+          "transferId": "TR0003",
+          "pledgeId": "PL0002",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "3d05d19393a5af56684eba81c18a8f68e154c30c3b73761c5fd448e70cf0e3a7",
+      "hash": "15a5517d2e685aa1c766658e07544d8ff8819a3a3e964675fc2fb3a52fb1daf2"
+    },
+    {
+      "seq": 37,
+      "ts": 1790910016343,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "ENT-HONGTAI",
+      "payload": {
+        "opId": "OP0022",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "REJECTED",
+        "reasonCode": "FORBIDDEN",
+        "idempotencyKey": "transfer-confirm:REQ-p5jbwzs1",
+        "ref": null
+      },
+      "prevHash": "15a5517d2e685aa1c766658e07544d8ff8819a3a3e964675fc2fb3a52fb1daf2",
+      "hash": "78ccd6d6f151575b30e3abad37186adba0db8ecf1b940826225323d82a43cd10"
+    },
+    {
+      "seq": 38,
+      "ts": 1790910016345,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0023",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "REJECTED",
+        "reasonCode": "FORBIDDEN",
+        "idempotencyKey": "transfer-apply:REQ-kcf4abll",
+        "ref": null
+      },
+      "prevHash": "78ccd6d6f151575b30e3abad37186adba0db8ecf1b940826225323d82a43cd10",
+      "hash": "da6ae3da302eab9043c6f6804dc9e82488654801a0f2bfedae7ca373ae6dd5a1"
+    },
+    {
+      "seq": 39,
+      "ts": 1790910016348,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0024",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "STALE_PLEDGE_VERSION",
+        "idempotencyKey": "transfer-confirm:REQ-sygfrx7i",
+        "ref": null
+      },
+      "prevHash": "da6ae3da302eab9043c6f6804dc9e82488654801a0f2bfedae7ca373ae6dd5a1",
+      "hash": "3a1397a1814cce861e3a759c0156503778cebc76a4025949388847e5b8d2497d"
+    },
+    {
+      "seq": 40,
+      "ts": 1790910016352,
+      "type": "PLEDGE_LOCKED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "financerId": "FIN-ICBC",
+        "pledgorId": "ENT-LVYE",
+        "loanAmount": 10000000,
+        "lockedValue": 39800000,
+        "notice": "仅内部锁定,登记成功前不得对外宣称担保生效"
+      },
+      "prevHash": "3a1397a1814cce861e3a759c0156503778cebc76a4025949388847e5b8d2497d",
+      "hash": "b3d532d7439209cc0c716669d27c7bd3f24e827bf9c00be53e72b8a0e31fdd02"
+    },
+    {
+      "seq": 41,
+      "ts": 1790910016352,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0025",
+        "action": "lock",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "pledge-lock:REQ-zz2prx57",
+        "ref": {
+          "pledgeId": "PL0003",
+          "receiptId": "WR0003",
+          "receiptVersion": 1,
+          "valuationBatchId": "VB0001",
+          "status": "LOCKED"
+        }
+      },
+      "prevHash": "b3d532d7439209cc0c716669d27c7bd3f24e827bf9c00be53e72b8a0e31fdd02",
+      "hash": "e305d637eadf1174602a92a76af1e0d8c45e681c810cb822698e9701dffb8f70"
+    },
+    {
+      "seq": 42,
+      "ts": 1790910016354,
+      "type": "PLEDGE_REGISTERED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "registrationNo": "REG17909100163545yxc",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001"
+      },
+      "prevHash": "e305d637eadf1174602a92a76af1e0d8c45e681c810cb822698e9701dffb8f70",
+      "hash": "241631818b761a44fcd24048d785ea0e94c46cab467eea05a585236185bf972a"
+    },
+    {
+      "seq": 43,
+      "ts": 1790910016354,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0026",
+        "action": "register",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "register:REG17909100163545yxc",
+        "ref": {
+          "pledgeId": "PL0003",
+          "registrationNo": "REG17909100163545yxc",
+          "registeredAt": 1790910016354,
+          "registrar": "登记中心",
+          "receiptVersion": 1
+        }
+      },
+      "prevHash": "241631818b761a44fcd24048d785ea0e94c46cab467eea05a585236185bf972a",
+      "hash": "354d814a86472c15f24e05a186c9854830fd10bfc5e54ef91a9228f7489d5b6b"
+    },
+    {
+      "seq": 44,
+      "ts": 1790910016357,
+      "type": "PLEDGE_TRANSFER_APPLIED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0004",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "registrationNo": "REG17909100163545yxc"
+      },
+      "prevHash": "354d814a86472c15f24e05a186c9854830fd10bfc5e54ef91a9228f7489d5b6b",
+      "hash": "4cb3f180c9bfd8cd2c1e530b839f2e580cfbe79be1068a1a028d78700d691f1b"
+    },
+    {
+      "seq": 45,
+      "ts": 1790910016358,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0027",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-apply:REQ-5lb99503",
+        "ref": {
+          "transferId": "TR0004",
+          "pledgeId": "PL0003",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": false,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "4cb3f180c9bfd8cd2c1e530b839f2e580cfbe79be1068a1a028d78700d691f1b",
+      "hash": "50681935a78c2bb230d11ef9581ba08752325d2479a729c94ee45cd397352de2"
+    },
+    {
+      "seq": 46,
+      "ts": 1790910016360,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0004",
+        "side": "from",
+        "confirmedFrom": true,
+        "confirmedTo": false
+      },
+      "prevHash": "50681935a78c2bb230d11ef9581ba08752325d2479a729c94ee45cd397352de2",
+      "hash": "d531eb85e7224e616bfe90c28d30ae6dbd5749b2f99b3a13d171bd52a5e4df96"
+    },
+    {
+      "seq": 47,
+      "ts": 1790910016360,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0028",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:REQ-zn0mm03x",
+        "ref": {
+          "transferId": "TR0004",
+          "pledgeId": "PL0003",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "d531eb85e7224e616bfe90c28d30ae6dbd5749b2f99b3a13d171bd52a5e4df96",
+      "hash": "9f44ae2a85fa15a8482e2940874d616e87e6e0250132e000d576914a6a6ca247"
+    },
+    {
+      "seq": 48,
+      "ts": 1790910016364,
+      "type": "RELEASE_GRANTED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "releaseId": "RL0001",
+        "qty": 20,
+        "remaining": 1980,
+        "allReleased": false
+      },
+      "prevHash": "9f44ae2a85fa15a8482e2940874d616e87e6e0250132e000d576914a6a6ca247",
+      "hash": "44b8c7fe320ef148a3d4853960b013dfe1a29d331d19fd77c78c03dcbbbae4e3"
+    },
+    {
+      "seq": 49,
+      "ts": 1790910016364,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0029",
+        "action": "release",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "release:REQ-b5fhwdoc",
+        "ref": {
+          "releaseId": "RL0001",
+          "token": "TKN-RL0001-1A6X6660",
+          "qty": 20,
+          "remaining": 1980,
+          "receiptId": "WR0003"
+        }
+      },
+      "prevHash": "44b8c7fe320ef148a3d4853960b013dfe1a29d331d19fd77c78c03dcbbbae4e3",
+      "hash": "603eede7072fd6cab7f3ccbacd94958b3f1a8f23a5a9affbeef321cbb8ec2b84"
+    },
+    {
+      "seq": 50,
+      "ts": 1790910016367,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0004",
+        "side": "to",
+        "confirmedFrom": true,
+        "confirmedTo": true
+      },
+      "prevHash": "603eede7072fd6cab7f3ccbacd94958b3f1a8f23a5a9affbeef321cbb8ec2b84",
+      "hash": "bc239bfa1268cc6fbd4025c1048a4e2168b528a0fdc5bffad063bcc02f3069d6"
+    },
+    {
+      "seq": 51,
+      "ts": 1790910016367,
+      "type": "PLEDGE_TRANSFER_REJECTED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "SYSTEM",
+      "payload": {
+        "transferId": "TR0004",
+        "reasonCode": "RELEASE_EXISTS",
+        "reason": "质押 PL0003 已存在生效放行单 RL0001(令牌 TKN-RL0001-1A6X6660,剩余 20 吨),须先核销/用罄后方可交接质权"
+      },
+      "prevHash": "bc239bfa1268cc6fbd4025c1048a4e2168b528a0fdc5bffad063bcc02f3069d6",
+      "hash": "0149837cf6bba29b23f0255928804de2a047a850f604044180d4774d7b626f68"
+    },
+    {
+      "seq": 52,
+      "ts": 1790910016367,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0030",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "RELEASE_EXISTS",
+        "idempotencyKey": "transfer-confirm:REQ-ir95ojgy",
+        "ref": {
+          "transferId": "TR0004",
+          "pledgeId": "PL0003",
+          "status": "REJECTED",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": true,
+          "effectiveAt": null,
+          "rejectCode": "RELEASE_EXISTS"
+        }
+      },
+      "prevHash": "0149837cf6bba29b23f0255928804de2a047a850f604044180d4774d7b626f68",
+      "hash": "ca1ec5685c444dedd74a0153c044127e82401c50ec425c97821a3dbc18f8336d"
+    },
+    {
+      "seq": 53,
+      "ts": 1790910016373,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0031",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "TRANSFER_REJECTED",
+        "idempotencyKey": "transfer-confirm:REQ-7c14jghp",
+        "ref": null
+      },
+      "prevHash": "ca1ec5685c444dedd74a0153c044127e82401c50ec425c97821a3dbc18f8336d",
+      "hash": "cb41d30d25073c66a7322e8ac2ece2005bc768c1c162eab6d8045ff51ebeda7a"
+    },
+    {
+      "seq": 54,
+      "ts": 1790910016378,
+      "type": "GOODS_DELIVERED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "WH-1",
+      "payload": {
+        "qty": 20,
+        "remainingQty": 1980,
+        "releaseId": "RL0001",
+        "fullyDelivered": false
+      },
+      "prevHash": "cb41d30d25073c66a7322e8ac2ece2005bc768c1c162eab6d8045ff51ebeda7a",
+      "hash": "e2b9428e919d22bbd1b13d59b4d90293f999c0e96ddf03bb3b791882d6d6eab7"
+    },
+    {
+      "seq": 55,
+      "ts": 1790910016381,
+      "type": "PLEDGE_TRANSFER_APPLIED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0005",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "registrationNo": "REG17909100163545yxc"
+      },
+      "prevHash": "e2b9428e919d22bbd1b13d59b4d90293f999c0e96ddf03bb3b791882d6d6eab7",
+      "hash": "8e13e2c5a409d833c0df5d56660f6a3045c72dc2d8acaa1b2041eca79fbc0819"
+    },
+    {
+      "seq": 56,
+      "ts": 1790910016381,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0032",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-apply:REQ-javnkgva",
+        "ref": {
+          "transferId": "TR0005",
+          "pledgeId": "PL0003",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": false,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "8e13e2c5a409d833c0df5d56660f6a3045c72dc2d8acaa1b2041eca79fbc0819",
+      "hash": "74ba3af1fa160d8f928ed05ba8e2a0f743970d0ac3c1de06d8186057171dc51a"
+    },
+    {
+      "seq": 57,
+      "ts": 1790910016383,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0005",
+        "side": "from",
+        "confirmedFrom": true,
+        "confirmedTo": false
+      },
+      "prevHash": "74ba3af1fa160d8f928ed05ba8e2a0f743970d0ac3c1de06d8186057171dc51a",
+      "hash": "95fb3a15bb3192ac46ad144173b969b38636b5ec3d335f346a42fdea69811815"
+    },
+    {
+      "seq": 58,
+      "ts": 1790910016383,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0033",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:REQ-nn3qhz5i",
+        "ref": {
+          "transferId": "TR0005",
+          "pledgeId": "PL0003",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "95fb3a15bb3192ac46ad144173b969b38636b5ec3d335f346a42fdea69811815",
+      "hash": "06aaba8d65afe59b141e86e6b4a86e0e3930c0f3a1fc0f4694533a9591c5424f"
+    },
+    {
+      "seq": 59,
+      "ts": 1790910016386,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0005",
+        "side": "to",
+        "confirmedFrom": true,
+        "confirmedTo": true
+      },
+      "prevHash": "06aaba8d65afe59b141e86e6b4a86e0e3930c0f3a1fc0f4694533a9591c5424f",
+      "hash": "8b59435ba37a650b35c68b3b7d8a43dbc160fcb9a088d82b003a4e4cbab4ce96"
+    },
+    {
+      "seq": 60,
+      "ts": 1790910016386,
+      "type": "PLEDGE_TRANSFER_EFFECTIVE",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0005",
+        "oldFinancerId": "FIN-ICBC",
+        "newFinancerId": "FIN-CMB",
+        "rightsVersionAfter": 2,
+        "registrationNo": "REG17909100163545yxc",
+        "voidedReleases": []
+      },
+      "prevHash": "8b59435ba37a650b35c68b3b7d8a43dbc160fcb9a088d82b003a4e4cbab4ce96",
+      "hash": "8b095eec0ab000fc49d8c6e3c2788c07d4d8fdb2d3ae2edc551db0db4962012d"
+    },
+    {
+      "seq": 61,
+      "ts": 1790910016386,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0003",
+      "pledgeId": "PL0003",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0034",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:REQ-6gvwtu12",
+        "ref": {
+          "transferId": "TR0005",
+          "pledgeId": "PL0003",
+          "status": "EFFECTIVE",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": true,
+          "effectiveAt": 1790910016386,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "8b095eec0ab000fc49d8c6e3c2788c07d4d8fdb2d3ae2edc551db0db4962012d",
+      "hash": "c3354811d63d37f75db1711f3dfe7e4f165245b17365d3fc57e56d20b0dab360"
+    },
+    {
+      "seq": 62,
+      "ts": 1790910016390,
+      "type": "RECEIPT_REGISTERED",
+      "receiptId": "WR0004",
+      "pledgeId": null,
+      "actorId": "WH-1",
+      "payload": {
+        "locationId": "LOC-A2",
+        "gradeId": "CU-A",
+        "holderId": "ENT-HONGTAI",
+        "startQty": 600,
+        "endQty": 700,
+        "qty": 100,
+        "version": 1,
+        "inspectionBatchId": "IB0004"
+      },
+      "prevHash": "c3354811d63d37f75db1711f3dfe7e4f165245b17365d3fc57e56d20b0dab360",
+      "hash": "e8eac07cf531d4e4c456cf6b95757a9107ed4d26a22c12f15888408eae19a888"
+    },
+    {
+      "seq": 63,
+      "ts": 1790910016393,
+      "type": "PLEDGE_LOCKED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "financerId": "FIN-ICBC",
+        "pledgorId": "ENT-HONGTAI",
+        "loanAmount": 1000000,
+        "lockedValue": 7250000,
+        "notice": "仅内部锁定,登记成功前不得对外宣称担保生效"
+      },
+      "prevHash": "e8eac07cf531d4e4c456cf6b95757a9107ed4d26a22c12f15888408eae19a888",
+      "hash": "2c57a9569c7212e5308cac3c224cb69d4ebe3f6a89498792f6b92e189e2db7e4"
+    },
+    {
+      "seq": 64,
+      "ts": 1790910016393,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0035",
+        "action": "lock",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "pledge-lock:REQ-py9x3tce",
+        "ref": {
+          "pledgeId": "PL0004",
+          "receiptId": "WR0004",
+          "receiptVersion": 1,
+          "valuationBatchId": "VB0001",
+          "status": "LOCKED"
+        }
+      },
+      "prevHash": "2c57a9569c7212e5308cac3c224cb69d4ebe3f6a89498792f6b92e189e2db7e4",
+      "hash": "806bdc57baffca9461edd62221d09edc4114287e062bafc82d80a0b31b2e5b31"
+    },
+    {
+      "seq": 65,
+      "ts": 1790910016396,
+      "type": "PLEDGE_REGISTERED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "registrationNo": "REG17909100163951ypo",
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001"
+      },
+      "prevHash": "806bdc57baffca9461edd62221d09edc4114287e062bafc82d80a0b31b2e5b31",
+      "hash": "ef9137a3bf23377baf021b92d29717850b408309062aa9e7b243b81177116b77"
+    },
+    {
+      "seq": 66,
+      "ts": 1790910016396,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0036",
+        "action": "register",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "register:REG17909100163951ypo",
+        "ref": {
+          "pledgeId": "PL0004",
+          "registrationNo": "REG17909100163951ypo",
+          "registeredAt": 1790910016396,
+          "registrar": "登记中心",
+          "receiptVersion": 1
+        }
+      },
+      "prevHash": "ef9137a3bf23377baf021b92d29717850b408309062aa9e7b243b81177116b77",
+      "hash": "81d857b54482c7fed4241ccd7d496df6021cdca99a0f8da9d3ea196449b071be"
+    },
+    {
+      "seq": 67,
+      "ts": 1790910016400,
+      "type": "PLEDGE_TRANSFER_APPLIED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0006",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "registrationNo": "REG17909100163951ypo"
+      },
+      "prevHash": "81d857b54482c7fed4241ccd7d496df6021cdca99a0f8da9d3ea196449b071be",
+      "hash": "828206a36c1f4d5700b3d06657faefb5467e858ae558e4d2f3f7c0d338a45e6a"
+    },
+    {
+      "seq": 68,
+      "ts": 1790910016400,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0037",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-apply:REQ-f6urbm0n",
+        "ref": {
+          "transferId": "TR0006",
+          "pledgeId": "PL0004",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": false,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "828206a36c1f4d5700b3d06657faefb5467e858ae558e4d2f3f7c0d338a45e6a",
+      "hash": "aa1e94207cc3b93a193eed90e3a7ee5cb7c61570a2b736a2211e2f77cdc90728"
+    },
+    {
+      "seq": 69,
+      "ts": 1790910016403,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0006",
+        "side": "from",
+        "confirmedFrom": true,
+        "confirmedTo": false
+      },
+      "prevHash": "aa1e94207cc3b93a193eed90e3a7ee5cb7c61570a2b736a2211e2f77cdc90728",
+      "hash": "57b1ddb4439fac79f3aa0ae317bddac2c396263fe777424a810635ee4cd898f3"
+    },
+    {
+      "seq": 70,
+      "ts": 1790910016403,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0038",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-confirm:REQ-vgio6llw",
+        "ref": {
+          "transferId": "TR0006",
+          "pledgeId": "PL0004",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "57b1ddb4439fac79f3aa0ae317bddac2c396263fe777424a810635ee4cd898f3",
+      "hash": "60b4c0ea7b481329965e8a07632bce30608581224198eca4b3edc6b84c04fce2"
+    },
+    {
+      "seq": 71,
+      "ts": 1790910016407,
+      "type": "LOAN_REPAID",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "ENT-HONGTAI",
+      "payload": {
+        "amount": 1000000,
+        "coveredAmount": 1000000,
+        "exposure": 0
+      },
+      "prevHash": "60b4c0ea7b481329965e8a07632bce30608581224198eca4b3edc6b84c04fce2",
+      "hash": "7acb285f230b03ee80836e346dd0871da84f1719725412e3ef4f3572cf7ce6b3"
+    },
+    {
+      "seq": 72,
+      "ts": 1790910016407,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "ENT-HONGTAI",
+      "payload": {
+        "opId": "OP0039",
+        "action": "repay",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": null,
+        "ref": {
+          "pledgeId": "PL0004",
+          "status": "REGISTERED",
+          "exposure": 0
+        }
+      },
+      "prevHash": "7acb285f230b03ee80836e346dd0871da84f1719725412e3ef4f3572cf7ce6b3",
+      "hash": "26e9c540ea961dedd9b57cdb4c54fe62d6850464b717c7ca951720676da5137f"
+    },
+    {
+      "seq": 73,
+      "ts": 1790910016410,
+      "type": "PLEDGE_TRANSFER_CONFIRMED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0006",
+        "side": "to",
+        "confirmedFrom": true,
+        "confirmedTo": true
+      },
+      "prevHash": "26e9c540ea961dedd9b57cdb4c54fe62d6850464b717c7ca951720676da5137f",
+      "hash": "4d5fa093fe2310c96403cd0b3abe499dbb46394ba93b8009bd9c183352468b50"
+    },
+    {
+      "seq": 74,
+      "ts": 1790910016410,
+      "type": "PLEDGE_TRANSFER_REJECTED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "SYSTEM",
+      "payload": {
+        "transferId": "TR0006",
+        "reasonCode": "PLEDGE_SETTLED",
+        "reason": "质押 PL0004 已全额清偿(敞口为 0),质权已无担保利益,转让不生效"
+      },
+      "prevHash": "4d5fa093fe2310c96403cd0b3abe499dbb46394ba93b8009bd9c183352468b50",
+      "hash": "cb3fb3482c43af2f52ca65ef0ec1cc22a99fcf76aeb49a99e5c54391948e148f"
+    },
+    {
+      "seq": 75,
+      "ts": 1790910016410,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0004",
+      "pledgeId": "PL0004",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0040",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "PLEDGE_SETTLED",
+        "idempotencyKey": "transfer-confirm:REQ-sbs6ca6d",
+        "ref": {
+          "transferId": "TR0006",
+          "pledgeId": "PL0004",
+          "status": "REJECTED",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": true,
+          "effectiveAt": null,
+          "rejectCode": "PLEDGE_SETTLED"
+        }
+      },
+      "prevHash": "cb3fb3482c43af2f52ca65ef0ec1cc22a99fcf76aeb49a99e5c54391948e148f",
+      "hash": "56bddebf5493d9eafa1cf715c4e0c851f16f0f67bb18e891211e4622910b7950"
+    },
+    {
+      "seq": 76,
+      "ts": 1790910016415,
+      "type": "PLEDGE_TRANSFER_WITHDRAWN",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "transferId": "TR0003",
+        "confirmedFrom": true,
+        "confirmedTo": false
+      },
+      "prevHash": "56bddebf5493d9eafa1cf715c4e0c851f16f0f67bb18e891211e4622910b7950",
+      "hash": "b26f8a3768b438cb9011565f3a94339c94499eedec45959131a64d6396c7f139"
+    },
+    {
+      "seq": 77,
+      "ts": 1790910016415,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0041",
+        "action": "transferWithdraw",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-withdraw:WD-1",
+        "ref": {
+          "transferId": "TR0003",
+          "pledgeId": "PL0002",
+          "status": "WITHDRAWN",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "b26f8a3768b438cb9011565f3a94339c94499eedec45959131a64d6396c7f139",
+      "hash": "997add4ae7650b8f58a777b3225af6951bb365ebf282bbb36b8069b23d282a33"
+    },
+    {
+      "seq": 78,
+      "ts": 1790910016422,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0042",
+        "action": "transferConfirm",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "TRANSFER_WITHDRAWN",
+        "idempotencyKey": "transfer-confirm:REQ-fgnk69bz",
+        "ref": null
+      },
+      "prevHash": "997add4ae7650b8f58a777b3225af6951bb365ebf282bbb36b8069b23d282a33",
+      "hash": "2b1c876ec34928475b0ceb9c2b7d0bb94a35583dbb975fa6be16dd3a551e660d"
+    },
+    {
+      "seq": 79,
+      "ts": 1790910016425,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0043",
+        "action": "transferWithdraw",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "TRANSFER_WITHDRAWN",
+        "idempotencyKey": "transfer-withdraw:REQ-n4f66aha",
+        "ref": null
+      },
+      "prevHash": "2b1c876ec34928475b0ceb9c2b7d0bb94a35583dbb975fa6be16dd3a551e660d",
+      "hash": "9a37a6508c0bc83de0c27fde06620026753867944d39f122f9d1fa812ac4ca71"
+    },
+    {
+      "seq": 80,
+      "ts": 1790910016428,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0044",
+        "action": "transferWithdraw",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "IDEMPOTENT_REPLAY",
+        "idempotencyKey": "transfer-withdraw:WD-1",
+        "ref": {
+          "transferId": "TR0003",
+          "pledgeId": "PL0002",
+          "status": "WITHDRAWN",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": true,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "9a37a6508c0bc83de0c27fde06620026753867944d39f122f9d1fa812ac4ca71",
+      "hash": "711fcf4bb12a9991025633d625dafc234994c2cebef40226e4cf8ab1b622237d"
+    },
+    {
+      "seq": 81,
+      "ts": 1790910016431,
+      "type": "PLEDGE_TRANSFER_APPLIED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "transferId": "TR0007",
+        "fromFinancerId": "FIN-ICBC",
+        "toFinancerId": "FIN-CMB",
+        "expectedRightsVersion": 1,
+        "registrationNo": "REG1790910016320x7nx"
+      },
+      "prevHash": "711fcf4bb12a9991025633d625dafc234994c2cebef40226e4cf8ab1b622237d",
+      "hash": "c25a5c6d872c31589bbd5aef006220b12cd04382ee69faf13273cc8ee27ac4d4"
+    },
+    {
+      "seq": 82,
+      "ts": 1790910016431,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0002",
+      "pledgeId": "PL0002",
+      "actorId": "FIN-ICBC",
+      "payload": {
+        "opId": "OP0045",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "transfer-apply:REQ-ch5qv249",
+        "ref": {
+          "transferId": "TR0007",
+          "pledgeId": "PL0002",
+          "status": "PENDING",
+          "fromFinancerId": "FIN-ICBC",
+          "toFinancerId": "FIN-CMB",
+          "expectedRightsVersion": 1,
+          "confirmedFrom": false,
+          "confirmedTo": false,
+          "effectiveAt": null,
+          "rejectCode": null
+        }
+      },
+      "prevHash": "c25a5c6d872c31589bbd5aef006220b12cd04382ee69faf13273cc8ee27ac4d4",
+      "hash": "44f63c9fdd89fc1ac0eb5086aec3aeece4f84355d5748aded13ebfc3759a044b"
+    },
+    {
+      "seq": 83,
+      "ts": 1790910016434,
+      "type": "RECEIPT_REGISTERED",
+      "receiptId": "WR0005",
+      "pledgeId": null,
+      "actorId": "WH-1",
+      "payload": {
+        "locationId": "LOC-A1",
+        "gradeId": "CU-A",
+        "holderId": "ENT-HONGTAI",
+        "startQty": 1000,
+        "endQty": 1050,
+        "qty": 50,
+        "version": 1,
+        "inspectionBatchId": "IB0005"
+      },
+      "prevHash": "44f63c9fdd89fc1ac0eb5086aec3aeece4f84355d5748aded13ebfc3759a044b",
+      "hash": "5c64fe872072e87aac6bfad89172a834bd8515e2f2903b27dcb8e0bdd8fd98a0"
+    },
+    {
+      "seq": 84,
+      "ts": 1790910016437,
+      "type": "PLEDGE_LOCKED",
+      "receiptId": "WR0005",
+      "pledgeId": "PL0005",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "receiptVersion": 1,
+        "valuationBatchId": "VB0001",
+        "financerId": "FIN-CMB",
+        "pledgorId": "ENT-HONGTAI",
+        "loanAmount": 1000000,
+        "lockedValue": 3625000,
+        "notice": "仅内部锁定,登记成功前不得对外宣称担保生效"
+      },
+      "prevHash": "5c64fe872072e87aac6bfad89172a834bd8515e2f2903b27dcb8e0bdd8fd98a0",
+      "hash": "3105648956b8ca8e1c1cdfe6ff52a1c9595b7986ba0178b347fb0f18e050c71c"
+    },
+    {
+      "seq": 85,
+      "ts": 1790910016437,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0005",
+      "pledgeId": "PL0005",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0046",
+        "action": "lock",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "SUCCESS",
+        "reasonCode": null,
+        "idempotencyKey": "pledge-lock:REQ-wqxfotd0",
+        "ref": {
+          "pledgeId": "PL0005",
+          "receiptId": "WR0005",
+          "receiptVersion": 1,
+          "valuationBatchId": "VB0001",
+          "status": "LOCKED"
+        }
+      },
+      "prevHash": "3105648956b8ca8e1c1cdfe6ff52a1c9595b7986ba0178b347fb0f18e050c71c",
+      "hash": "6d0ef36e2e613938b3fbe948dc86b6eb671f21b608444c9a00b82daf2e0f448f"
+    },
+    {
+      "seq": 86,
+      "ts": 1790910016440,
+      "type": "ATTEMPT_LOGGED",
+      "receiptId": "WR0005",
+      "pledgeId": "PL0005",
+      "actorId": "FIN-CMB",
+      "payload": {
+        "opId": "OP0047",
+        "action": "transferApply",
+        "sessionId": "SES-TRANSFER-6yeao",
+        "outcome": "CONFLICT",
+        "reasonCode": "PLEDGE_NOT_REGISTERED",
+        "idempotencyKey": "transfer-apply:REQ-7ou0ym50",
+        "ref": null
+      },
+      "prevHash": "6d0ef36e2e613938b3fbe948dc86b6eb671f21b608444c9a00b82daf2e0f448f",
+      "hash": "6574d4b2e7efba8ed72f722be15fc0aff79f0444c00aff84b36a51f7d70adfbe"
+    }
+  ]
+}

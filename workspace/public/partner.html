@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>合作机构 · 受托查验工作台</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div id="topbar"></div>
+<main>
+  <div class="banner">
+    🤝 <b>受托查验额度工作台</b>:合作机构在此查看被委托的<b>可用授权</b>(业务场景、有效期、单次操作人限制、剩余次数),
+    并以本机构身份发起在线查验。只能消费<b>本机构</b>被委托的额度;授权被收回、凭据作废、签名密钥应急吊销或上级额度耗尽时立即停止;
+    相同业务流水重放返回第一次裁决,失败重试不重复扣次。
+  </div>
+
+  <div class="card">
+    <h2>① 选择本机构身份与单次操作人</h2>
+    <div class="form-row">
+      <label class="fld">本机构(受托方)
+        <select id="p-grantee"></select>
+      </label>
+      <label class="fld">本次操作人(须命中授权白名单)
+        <input id="p-operator" placeholder="如 OP-001" style="min-width:220px">
+      </label>
+      <button class="primary" id="btn-load-dl" style="align-self:flex-end">查询我的授权</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>② 我可用的受托授权
+      <button style="margin-left:auto" id="btn-refresh-dl">刷新</button>
+    </h2>
+    <div class="table-wrap">
+      <table id="tbl-dl"><thead><tr>
+        <th>授权号</th><th>父凭据</th><th>委托方</th><th>业务场景</th><th>有效期</th>
+        <th>额度(已用/余)</th><th>允许操作人</th><th>状态</th><th>操作</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+
+  <div class="grid cols-2" style="margin-top:16px">
+    <div class="card">
+      <h2>③ 发起受托查验</h2>
+      <p class="small muted">在授权行点「查验」自动带入授权号与场景;也可手动填写。查验成功才扣本授权次数,
+        越权机构、错误场景、过期/收回/级联停止、额度耗尽均返回确定拒绝码且不扣次。</p>
+      <div class="form-row">
+        <label class="fld">授权号<input id="c-delegation" placeholder="DL0001"></label>
+        <label class="fld">业务场景<select id="c-purpose"></select></label>
+      </div>
+      <label class="fld" style="margin-top:8px">(可选)粘贴第三方出示的证明信封 JSON 做完整密码学校验;留空则按签发方台账在线判定
+        <textarea id="c-envelope" rows="4" style="width:100%;font-family:ui-monospace,Menlo,monospace;font-size:11px" placeholder='{"v":1,"alg":"ES256",...}'></textarea>
+      </label>
+      <div class="hr"></div>
+      <div class="row-actions">
+        <button class="primary" id="btn-consume">提交查验(生成业务流水)</button>
+      </div>
+      <div id="c-result" style="margin-top:10px"></div>
+    </div>
+
+    <div class="card">
+      <h2>④ 本机构查验与被拒回放(相同流水返回首裁)
+        <button style="margin-left:auto" id="btn-load-vf">查询</button>
+      </h2>
+      <div class="table-wrap" style="max-height:420px">
+        <table id="tbl-vf"><thead><tr>
+          <th>时间</th><th>授权</th><th>场景</th><th>结论</th><th>原因码 / 说明</th><th>额度(剩余)</th><th>业务流水</th>
+        </tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/common.js"></script>
+<script src="/cert-core.js"></script>
+<script src="/partner.js"></script>
+</body>
+</html>

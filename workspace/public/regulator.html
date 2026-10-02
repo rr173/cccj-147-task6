@@ -130,6 +130,28 @@
   </div>
 
   <div class="card" style="margin-top:16px">
+    <h2>🌳 机构查验额度委托树(按父级凭据查看总额/预占/各机构已用与剩余 + 先后事件)
+      <button style="margin-left:auto" onclick="loadQuotaTree()">查询</button>
+    </h2>
+    <div class="form-row" style="margin-bottom:10px">
+      <label class="fld">父凭据号<input id="qt-cert" placeholder="如 CRT0001"></label>
+    </div>
+    <div id="qt-summary" class="small"></div>
+    <div class="table-wrap" style="margin-top:8px">
+      <table id="tbl-qt"><thead><tr>
+        <th>授权号</th><th>受托机构</th><th>场景</th><th>有效期</th><th>配额</th><th>已用</th><th>剩余</th>
+        <th>状态</th><th>操作人白名单</th><th>停止/收回原因</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+    <h3 style="margin-top:12px">委托先后事件(委托 → 消费 → 收回/拒绝/级联停止,严格按链上序号)</h3>
+    <div class="table-wrap" style="max-height:320px">
+      <table id="tbl-qt-events"><thead><tr>
+        <th>#</th><th>时间</th><th>事件</th><th>主体</th><th>授权</th><th>载荷摘要</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
     <h2>📜 全局事件流(append-only,# 即链上序号)</h2>
     <div class="table-wrap" style="max-height:420px">
       <table id="tbl-events"><thead><tr><th>#</th><th>时间</th><th>事件</th><th>仓单</th><th>质押</th><th>主体</th><th>载荷摘要</th><th>哈希</th></tr></thead><tbody></tbody></table>

@@ -132,7 +132,18 @@ function makeElement(ownerDoc, tag, attrs = {}, parent = null) {
     set onclick(fn) { this.listeners.click = [fn]; },
     get onclick() { return this.listeners.click?.[0] || null; },
     querySelector(sel) { return queryAll(this, sel, true); },
-    querySelectorAll(sel) { return queryAll(this, sel, false); }
+    querySelectorAll(sel) { return queryAll(this, sel, false); },
+    getAttribute(name) { return Object.prototype.hasOwnProperty.call(this.attrs, name) ? this.attrs[name] : null; },
+    setAttribute(name, value) { this.attrs[name] = String(value); },
+    closest(sel) {
+      // 支持简单选择器:tag、#id、.class、[attr](含 [attr=v]);从自身向上找
+      let cur = this;
+      while (cur && cur.tag !== '#fragment') {
+        if (matchToken(cur, sel)) return cur;
+        cur = cur.parent;
+      }
+      return null;
+    }
   };
   return el;
 }
@@ -241,14 +252,19 @@ export function createBrowser(baseUrl) {
   // HTML 骨架中静态存在的元素(tag 用于 querySelector('tbody'))
   const TABLES = ['tbl-receipts', 'tbl-ib', 'tbl-dl', 'tbl-rl', 'tbl-steps', 'tbl-pledges',
     'tbl-sup', 'tbl-batch', 'tbl-ops', 'tbl', 'tbl-events', 'tbl-transfers',
-    'tbl-certs', 'tbl-keys', 'tbl-verifications'];
+    'tbl-certs', 'tbl-keys', 'tbl-verifications', 'tbl-delegations',
+    'tbl-qt', 'tbl-qt-events', 'tbl-dl', 'tbl-vf'];
   const SELECTS = ['f-loc', 'f-grade', 'f-holder', 'p-fin', 'p-receipt', 'p-batch',
     'race-receipt', 'stale-pledge', 'replay-pledge', 'op-outcome', 'op-action',
-    'tf-pledge', 'tf-to', 'is-actor', 'is-receipt', 'is-purpose', 'vf-purpose', 'rv-valid'];
+    'tf-pledge', 'tf-to', 'is-actor', 'is-receipt', 'is-purpose', 'vf-purpose', 'rv-valid',
+    'p-grantee', 'c-purpose', 'dl-grantee', 'dl-scenario'];
   const INPUTS = ['f-qty', 'f-start', 'p-amount', 'vb-note', 'filter',
-    'op-receipt', 'op-pledge', 'op-actor', 'op-session', 'is-ttl', 'is-uses', 'rv-cert', 'cert-text', 'vf-text'];
+    'op-receipt', 'op-pledge', 'op-actor', 'op-session', 'is-ttl', 'is-uses', 'rv-cert', 'cert-text', 'vf-text',
+    'p-operator', 'c-delegation', 'c-envelope', 'qt-cert',
+    'dl-quota', 'dl-start', 'dl-end', 'dl-operators'];
   const BUTTONS = ['btn-register', 'btn-merge', 'btn-merge-clear', 'btn-refresh', 'btn-reset', 'btn-lock', 'btn-transfer-apply',
-    'btn-issue', 'btn-verify-online', 'btn-refresh-certs'];
+    'btn-issue', 'btn-verify-online', 'btn-refresh-certs',
+    'btn-refresh-dl', 'btn-load-dl', 'btn-consume', 'btn-load-vf'];
   const tagFor = (id) =>
     TABLES.includes(id) ? 'table' : SELECTS.includes(id) ? 'select' :
     INPUTS.includes(id) ? 'input' : BUTTONS.includes(id) ? 'button' : 'div';
@@ -256,7 +272,8 @@ export function createBrowser(baseUrl) {
     'topbar', 'stats', 'merge-sel',
     'claim-banner', 'session-card', 'session-box', 'step-filters',
     'chain-banner', 'chain-box', 'toast-host', 'modal-mask',
-    'audit-overlap', 'audit-double', 'audit-claim', 'audit-transfer'];
+    'audit-overlap', 'audit-double', 'audit-claim', 'audit-transfer',
+    'audit-cert-keys', 'audit-certs', 'cert-stats', 'qt-summary', 'c-result'];
   for (const id of htmlStatic) {
     const el = makeElement(document, tagFor(id), { id });
     knownById.set(id, el);

@@ -76,6 +76,39 @@ function guard(action, fn) {
 const PORT = process.env.PORT || 3000;
 const PUBLIC = path.join(__dirname, '..', 'public');
 
+/* ---------- 委托/收回参数级拒绝守卫:业务事务回滚后独立事务补登拒绝台账 ----------
+ * 业务规则拒绝(越权/超额/状态冲突)在事务内以 200 裁决返回且已上链;
+ * 到达这里的只有必填参数缺失等在开事务前抛出的 DomainError,同样必须留痕。
+ */
+function cguard(action, fn) {
+  return async (body, query) => {
+    try {
+      return await fn(body, query);
+    } catch (e) {
+      if (e instanceof DomainError) {
+        const input = body || {};
+        try {
+          await certs.logDelegationDeny({
+            kind: action === 'reclaim' ? 'RECLAIM_DENIED' : 'DELEGATE_DENIED',
+            action,
+            actorId: input.actorId || null,
+            certId: input.certId || null,
+            delegationId: input.delegationId || null,
+            granteeId: input.granteeId || null,
+            reasonCode: e.code,
+            reason: e.message,
+            nonce: input.delegateNonce || input.reclaimNonce || null,
+            request: input
+          });
+        } catch (logErr) {
+          console.error('[delegation audit log failure]', logErr);
+        }
+      }
+      throw e;
+    }
+  };
+}
+
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -195,6 +228,35 @@ const routes = {
   'POST /api/certificates/issue': (b) => certs.issueCertificate(b),
   'POST /api/certificates/revoke': (b) => certs.revokeCertificate(b),
   'POST /api/certificates/verify': (b) => certs.verifyCertificateOnline(b),
+  /* ---------------- 机构级查验额度委托:委托 / 收回 / 受托消费(C7) ----------------
+   * 业务校验拒绝在事务内以 200 裁决返回并已上链;到达守卫的只有参数级 DomainError,
+   * 由独立事务补登 DELEGATE_DENIED/RECLAIM_DENIED,保证「拒绝动作」也进入持久化与审计链。
+   */
+  'POST /api/certificates/delegate': cguard('delegate', (b) => certs.delegateQuota(b)),
+  'POST /api/certificates/delegations/reclaim': cguard('reclaim', (b) => certs.reclaimDelegation(b)),
+  'POST /api/certificates/delegations/consume': (b) => certs.consumeDelegated(b),
+  'GET /api/certificates/delegations': (b, q) =>
+    certs.queryDelegations({
+      certId: q.get('certId') || undefined,
+      granteeId: q.get('granteeId') || undefined,
+      issuedBy: q.get('issuedBy') || undefined,
+      status: q.get('status') || undefined,
+      usable: q.get('usable') || undefined
+    }),
+  'GET /api/certificates/delegations/audit': (b, q) =>
+    certs.queryDelegationAudit({
+      certId: q.get('certId') || undefined,
+      delegationId: q.get('delegationId') || undefined,
+      granteeId: q.get('granteeId') || undefined,
+      actorId: q.get('actorId') || undefined,
+      kind: q.get('kind') || undefined,
+      outcome: q.get('outcome') || undefined
+    }),
+  'GET /api/certificates/quota-tree': (b, q) => {
+    const id = q.get('certId');
+    if (!id) throw new DomainError('CERT_ID_REQUIRED', '缺少 certId');
+    return certs.quotaTree(id);
+  },
   'GET /api/certificates': (b, q) =>
     certs.queryCertificates({
       receiptId: q.get('receiptId') || undefined,
@@ -206,7 +268,9 @@ const routes = {
     certs.queryVerifications({
       certId: q.get('certId') || undefined,
       purpose: q.get('purpose') || undefined,
-      valid: q.get('valid') || undefined
+      valid: q.get('valid') || undefined,
+      delegationId: q.get('delegationId') || undefined,
+      granteeId: q.get('granteeId') || undefined
     }),
   'GET /api/certificates/audit': () => certs.certificateAudit(),
   'GET /api/certificates/anchors': () => ({ anchors: certs.trustAnchors(), at: Date.now() }),

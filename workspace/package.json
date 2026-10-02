@@ -11,7 +11,9 @@
     "test:e2e": "node test/e2e-flow.mjs",
     "test:cert": "node test/certificates.mjs",
     "test:cert-pages": "node test/cert-pages.mjs",
-    "test:all": "node test/smoke.mjs && node test/restart-recovery.mjs && node test/e2e-flow.mjs && node test/certificates.mjs && node test/cert-pages.mjs"
+    "test:cert-delegations": "node test/cert-delegations.mjs",
+    "test:cert-delegation-pages": "node test/cert-delegation-pages.mjs",
+    "test:all": "node test/smoke.mjs && node test/restart-recovery.mjs && node test/e2e-flow.mjs && node test/certificates.mjs && node test/cert-pages.mjs && node test/cert-delegations.mjs && node test/cert-delegation-pages.mjs"
   },
   "engines": {
     "node": ">=18"

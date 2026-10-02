@@ -14,11 +14,13 @@ npm run test:restart      # 服务进程 SIGKILL→重启恢复回归(28 项,自
 npm run test:e2e          # 三页串联端到端(88 项,自起停服务;真实执行页面脚本)
 npm run test:cert         # 权利证明签发/离线验真 全对抗场景 + 断电恢复(73 项)
 npm run test:cert-pages   # 权利证明中心 / 离线验真器 页面级端到端(21 项)
-npm run test:all          # 以上五套依次运行
+npm run test:cert-delegations      # 机构级查验额度委托 全对抗 + 断电恢复(88 项)
+npm run test:cert-delegation-pages # 证明中心委托 / 合作机构 / 监管额度树 页面级(24 项)
+npm run test:all          # 以上七套依次运行
 ```
 
 > 重启恢复测试通过环境变量 `EWR_DB_FILE` 使用独立临时数据文件(默认 `/tmp/ewr-restart-db.json`),
-> 权利证明测试用 `EWR_CERT_DB`、页面测试用 `EWR_CERTPAGE_DB`;端口可用 `RESTART_PORT` 覆盖。
+> 权利证明测试用 `EWR_CERT_DB`、页面测试用 `EWR_CERTPAGE_DB`、机构委托测试用 `EWR_CERTDL_DB`、委托页面用 `EWR_CERTDLPAGE_DB`;端口可用 `RESTART_PORT` 等覆盖。
 
 首次启动自动载入 `src/seed.js` 演示数据;数据落盘于 `data/db.json`,任一工作台可点「重置演示数据」。
 
@@ -26,7 +28,8 @@ npm run test:all          # 以上五套依次运行
 |---|---|---|
 | 仓库端 | `/warehouse.html` | 按库位+检验批登记、拆分/合并、复检、凭放行出库 |
 | 融资方端 | `/financier.html` | 质押锁定/登记、补充担保、还款、放行、**质权转让与交接(双方确认)**;**可恢复会话、操作步骤回放**;并发/晚到/重放演练 |
-| 监管查询 | `/regulator.html` | 区间重叠/重复融资/提前宣称/**质权转让交接**审计、哈希链验签、权属穿透、**融资方操作审计回放** |
+| 合作机构 | `/partner.html` | **受托查验额度**:查看本机构可用授权(场景/有效期/操作人/剩余次数),以本机构身份消费,越权/错场景/过期/收回/级联停止即拒 |
+| 监管查询 | `/regulator.html` | 区间重叠/重复融资/提前宣称/**质权转让交接/机构额度委托树**审计、哈希链验签、权属穿透、**融资方操作审计回放** |
 
 ## 五条强制业务不变量
 
@@ -93,17 +96,45 @@ npm run test:all          # 以上五套依次运行
 密钥三态:`ACTIVE`(当前签发)/ `ROTATED`(正常轮换,旧证明继续受信)/ `REVOKED`(疑似私钥泄露应急吊销,
 其签发证明立即拒绝)。
 
+## 机构级查验额度委托(不变量 C7)
+
+持有方(凭据签发方)或监管方可把凭据**总次数中的一部分**委托给指定合作机构,并为每笔授权设置
+**业务场景、起止时间、单次操作人白名单**;受托机构只能消费自己的授权额度。
+
+- **额度预占模型** — 委托即从凭据总池预占:`freePool = maxUses − 已用 − Σ活跃授权未用预占`;
+  直接第三方核验与新增委托都只能从 `freePool` 划出。受托消费在**同一 FIFO 串行事务**内
+  同时扣「本授权次数」与「父凭据总次数」两层,任一超限即拒,**并发访问总额度/各机构已用量/剩余均不超扣**。
+- **受托机构隔离** — 非受托机构消费 `FORBIDDEN`;操作人不在白名单 `OPERATOR_FORBIDDEN`;
+  场景与授权不符 `SCENARIO_MISMATCH`;未到生效 `DELEGATION_NOT_STARTED`、过期 `DELEGATION_EXPIRED`、
+  本机构配额用尽 `DELEGATION_EXHAUSTED`、上级总池(排除自身预占后)用尽 `PARENT_QUOTA_EXHAUSTED`。
+- **确定性裁决** — 每次受托查验带一次性业务流水 `nonce`,相同流水再次提交(失败重试/断网/换操作人)
+  返回**第一次裁决**,成功仅扣一次、失败永不扣次。
+- **收回** — 持有方/监管方收回授权,**仅退回未用预占**(已用量不退回),授权即刻 `RECLAIMED`,
+  旧授权消费立即 `DELEGATION_RECLAIMED`;`reclaimNonce` 幂等,重复收回不二次退回。
+- **同步停止** — 凭据作废(CERT_REVOKED)或签名密钥应急吊销(KEY_REVOKED)时,其全部 `ACTIVE`
+  下级授权在**同一事务**转 `HALTED`(密钥吊销只波及该密钥签发的凭据);已 `RECLAIMED` 的授权保持单一终态不被覆盖。
+- **审批与收回同时到达** — FIFO 串行裁决先到者:消费先到则扣一次后收回终结,收回到先则该笔消费被拒,
+  只形成**一个终态**,终态后的重复消费/收回不产生第二次扣减或退回。
+- **持久化与审计链** — 委托/消费/收回/拒绝(含参数级拒绝的守卫补登)全部随业务事务原子落盘,
+  并以上链事件 `CERT_QUOTA_DELEGATED / CERT_DELEGATED_VERIFIED / CERT_QUOTA_RECLAIMED /
+  CERT_DELEGATION_HALTED / CERT_DELEGATION_AUDIT` 进入同一条 SHA-256 哈希链;SIGKILL 重启后
+  额度、预占、授权状态、首次裁决均不回退。
+- **三端协同** — 权利证明中心可在证明行「委托额度」并在台账收回;合作机构页只展示/消费**本机构**授权;
+  监管端按父级凭据查看**完整额度树**(总额/已用/活跃预占/可分/总余 + 各机构配额/已用/剩余/窗口/操作人)
+  与严格按链上序号排列的先后事件,并对账「已用 + 活跃预占 ≤ 总额」。
+
 ## 目录
 
 ```
 src/storage.js  持久化 + 串行事务(支持 async mutator,WebCrypto 签名)+ 哈希链
 src/domain.js   仓单/质押/复检/出库领域逻辑、操作留痕、会话重建与审计查询
 src/cert-core.js  证明密码学核心:ES256 签名/验证、字段承诺、链锚重算、离线 verifyOffline(Node/浏览器同源 UMD)
-src/certificates.js 证明签发/在线核验/撤销/密钥轮换/监管查询领域逻辑
+src/certificates.js 证明签发/在线核验/撤销/密钥轮换/**机构额度委托(委托/受托消费/收回/额度树)**/监管查询领域逻辑
 src/qrcode.js   零依赖 QR 编码器(byte 模式 v1–40,纠错 L,RS+8 掩膜择优;Node/浏览器同源 UMD)
 src/seed.js     演示数据
 src/server.js   HTTP API、失败留痕守卫、静态托管、离线验真器单文件构建(内联信任锚)
-public/certificates.html / certificates.js  权利证明中心(签发/下载/二维码/在线验真/密钥/回放)
+public/certificates.html / certificates.js  权利证明中心(签发/下载/二维码/在线验真/密钥/**额度委托与收回**/回放)
+public/partner.html / partner.js  合作机构受托查验工作台(可用授权、本机构消费、查验/被拒回放)
 public/offline-verifier.partial.html + offline-verifier.js  第三方离线验真页(构建为单文件)
 public/         其余三端工作台(原生 HTML/JS;common.js 以 IIFE 隔离,只暴露 window.EWR)
 test/smoke.mjs              112 项端到端不变量测试
@@ -111,6 +142,8 @@ test/restart-recovery.mjs    28 项进程重启恢复测试(自起停临时服�
 test/e2e-flow.mjs            88 项三页串联端到端(仓库建单→锁定/登记/清偿/授权→出库→监管)
 test/certificates.mjs       73 项证明签发/离线验真/对抗/断电恢复(自起停临时服务)
 test/cert-pages.mjs          21 项证明中心/离线验真器页面级端到端
+test/cert-delegations.mjs    88 项机构额度委托全对抗(预占/双层扣次/收回/级联/并发/单终章/断电恢复)
+test/cert-delegation-pages.mjs 24 项证明中心委托/合作机构/监管额度树页面级端到端
 test/mini-dom.mjs           e2e 使用的零依赖极简 DOM 垫片(在 Node 中真实加载 common.js+页面脚本)
 ```
 
@@ -131,6 +164,16 @@ test/mini-dom.mjs           e2e 使用的零依赖极简 DOM 垫片(在 Node 中
 - `GET  /api/certificates/anchors` — 全部已知密钥信任锚(含 REVOKED 标记,离线器据此精确拒绝);
   `GET /api/certificates/audit` — 证明/核验/密钥计数 + 链验签;
 - `POST /api/cert-keys/rotate` / `POST /api/cert-keys/revoke`(仅监管方) · `GET /api/cert-keys`;
+
+机构级查验额度委托(C7):
+- `POST /api/certificates/delegate` — `{actorId, certId, granteeId, quota, scenario?, startsAt?, expiresAt?, operatorIds[], delegateNonce}`
+  持有方/监管方从凭据总池预占委托;越权/超额/非法场景/窗口等业务拒绝返回 200 `{rejected:true,code}` 裁决并上链,缺参数返回 400(守卫补登拒绝痕);
+- `POST /api/certificates/delegations/consume` — 受托查验 `{delegationId, granteeId, operatorId, purpose, nonce, envelope?}`;
+  成功才双层扣次,失败 200 `{valid:false,code}` 且结论按 nonce 留存,相同流水返回第一次裁决;
+- `POST /api/certificates/delegations/reclaim` — `{actorId, delegationId, reclaimNonce, reason?}`,仅退回未用预占,旧授权立即失效;
+- `GET  /api/certificates/delegations?certId=&granteeId=&issuedBy=&status=&usable=` — 委托台账(合作机构页按 granteeId 只看自己);
+- `GET  /api/certificates/delegations/audit?certId=&delegationId=&granteeId=&kind=&outcome=` — 委托/消费/收回/拒绝按序审计;
+- `GET  /api/certificates/quota-tree?certId=` — 监管端按父级凭据的完整额度树 + 先后事件 + 对账。
 - `GET  /offline-verifier.html`(在线打开,注入当前信任锚)/ `/offline-verifier.download`(附件下载单文件)。
 
 会话与审计:

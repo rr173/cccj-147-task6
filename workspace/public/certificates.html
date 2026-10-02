@@ -70,6 +70,26 @@
     </div>
   </div>
 
+  <!-- 机构级查验额度委托 -->
+  <div class="card" style="margin-top:16px">
+    <h2>⑥ 机构级查验额度委托(把总次数分配给合作机构)
+      <button style="margin-left:auto" id="btn-refresh-dl">刷新</button>
+    </h2>
+    <p class="small muted">持有方从凭据总次数中预占一部分委托给指定合作机构,并限定<b>业务场景、起止时间、单次操作人白名单</b>。
+      受托机构只能消费自己的授权额度;凭据作废、签名密钥应急吊销时全部下级授权同步停止;
+      收回仅退回未用预占,旧授权立即失效。</p>
+    <div class="table-wrap">
+      <table id="tbl-delegations"><thead><tr>
+        <th>授权号</th><th>父凭据 / 委托方</th><th>受托机构</th><th>场景</th><th>有效期</th>
+        <th>额度(已用/余)</th><th>操作人白名单</th><th>状态</th><th style="min-width:200px">操作</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+    <div class="hr"></div>
+    <div class="row-actions">
+      <a class="btn" href="/partner.html" target="_blank" style="text-decoration:none">打开合作机构受托查验页 →</a>
+    </div>
+  </div>
+
   <!-- 最近签发 -->
   <div class="card" style="margin-top:16px">
     <h2>③ 已签发证明台账 <button style="margin-left:auto" id="btn-refresh-certs">刷新</button>
@@ -77,7 +97,7 @@
     </h2>
     <div class="table-wrap">
       <table id="tbl-certs"><thead><tr>
-        <th>证明号</th><th>仓单/签发方</th><th>用途</th><th>有效期</th><th>次数</th><th>密钥</th>
+        <th>证明号</th><th>仓单/签发方</th><th>用途</th><th>有效期</th><th>次数(已用/预占/可分)</th><th>密钥</th>
         <th>状态</th><th style="min-width:300px">操作</th>
       </tr></thead><tbody></tbody></table>
     </div>
